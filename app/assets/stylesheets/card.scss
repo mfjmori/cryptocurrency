@@ -1,0 +1,28 @@
+#card-wrapper {
+  padding: 5px;
+  a {
+    text-decoration: none;
+  }
+  .card {
+    .card-body {
+      h4 {
+        color: black;
+      }
+      .rate-box {
+        .middle-rate {
+          color: #0000FF;
+          font-weight: bold;
+        }
+        .jpy {
+          position: relative;
+          bottom: -8px;
+        }
+      }
+
+    }
+  }
+}
+
+.compare-previous-day {
+  font-weight: bold;
+}
