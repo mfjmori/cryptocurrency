@@ -1,19 +1,35 @@
 <p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <div id="card-wrapper" class="col-12 px-3">
+      <h3 class="text-center font-weight-bold">チャート詳細</h3>
+      <div class="card">
+        <div class="card-body p-2">
+          <div class="row">
+            <h4 class="card-title col-6"><%= @money.abbreviation.upcase %>(<%= @money.name%>)</h4>
+            <div class="rate-box row col-6">
+              <h2 class="middle-rate ml-auto mr-0" id="<%= @money.abbreviation %>"></h2>
+              <h4 class="jpy mr-0">円</h4>
+            </div>
+          </div>
+          <h5 class="card-text text-right compare-previous-day" id="<%= @money.abbreviation %>">前日比〇〇円（＋〇〇％）</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container">
   <div class="response-output" data-money-abbreviation="<%= @money.abbreviation %>">
-    <h5>現在の<%= @money.name %>の取引額</h5>
-    <table border="1" class="table table-sm col-12">
-      <thead class="thead-dark">
+    <table class="table table-sm col-12 table-bordered">
+      <thead class="bg-warning">
         <tr>
-          <th>レート(仲値)</th>
           <th>買値</th>
           <th>売値</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="middle-rate" id="<%= @money.abbreviation %>">エラー</td>
+        <tr class="bg-white">
           <td class="buy-order-value" id="<%= @money.abbreviation %>">エラー</td>
           <td class="sell-order-value" id="<%= @money.abbreviation %>">エラー</td>
         </tr>
