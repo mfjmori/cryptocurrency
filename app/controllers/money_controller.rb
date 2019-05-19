@@ -1,4 +1,5 @@
 class MoneyController < ApplicationController
+  before_action :move_to_index, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_money, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -17,7 +18,6 @@ class MoneyController < ApplicationController
 
   def create
     @money = Money.new(money_params)
-
     if @money.save
       redirect_to @money, notice: 'money was successfully created.'
     else
@@ -47,5 +47,9 @@ class MoneyController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def money_params
       params.require(:money).permit(:name, :abbreviation)
+    end
+
+    def move_to_index
+      redirect_to( { action: :index }, { notice: '権限がありません' }) unless current_user.admin?
     end
 end
