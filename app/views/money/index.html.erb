@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 <div class="container">
   <div class="d-none d-md-block">
-  <h2 class="text-left">仮想通貨一覧</h2>
+  <h2 class="text-center font-weight-bold">仮想通貨一覧</h2>
   <table class="table table-sm col-12">
-    <thead class="thead-dark">
+    <thead class="bg-warning">
       <tr>
         <th>仮想通貨</th>
         <th>略称</th>
@@ -33,6 +33,7 @@
 </div>
 
 <div class="container">
+  <p class="text-right">※前日比は前日のPM9時の値が基準</p>
   <h5 class="text-right">＜期間：日足＞</h5>
   <div class="row">
     <% @money.each do |money| %>
