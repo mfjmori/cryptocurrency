@@ -10,7 +10,9 @@
         <th>レート(仲値)</th>
         <th>買値</th>
         <th>売値</th>
-        <th colspan="3"></th>
+        <% if signed_in? && current_user.admin? %>
+          <th colspan="3"></th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
@@ -21,15 +23,17 @@
           <td class="middle-rate" id="<%= money.abbreviation %>">エラー</td>
           <td class="buy-order-value" id="<%= money.abbreviation %>">エラー</td>
           <td class="sell-order-value" id="<%= money.abbreviation %>">エラー</td>
-          <td><%= link_to 'Show', money, data: {"turbolinks" => false} %></td>
-          <td><%= link_to 'Edit', edit_money_path(money) %></td>
-          <td><%= link_to 'Destroy', money, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% if signed_in? && current_user.admin? %>
+            <td><%= link_to 'Show', money, data: {"turbolinks" => false} %></td>
+            <td><%= link_to 'Edit', edit_money_path(money) %></td>
+            <td><%= link_to 'Destroy', money, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
   </table>
   </div>
-  <%= link_to 'New money', new_money_path %>
+  <%= link_to 'New money', new_money_path if current_user && current_user.admin? %>
 </div>
 
 <div class="container">

@@ -7,15 +7,6 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav mr-0 ml-auto">
-      <li class="nav-item">
-        <%= link_to "新規登録", new_user_registration_path, class: "nav-link"%>
-      </li>
-      <li class="nav-item">
-        <%= link_to "ログイン", new_user_session_path, class: "nav-link"%>
-      </li>
-      <li class="nav-item">
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link"%>
-      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           仮想通貨一覧
@@ -26,6 +17,16 @@
           <% end %>
         </div>
       </li>
+      <li class="nav-item">
+        <%= link_to "新規登録", new_user_registration_path, class: "nav-link" unless signed_in? %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "ログイン", new_user_session_path, class: "nav-link" unless signed_in? %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" if signed_in? %>
+      </li>
+
     </ul>
   </div>
 </nav>
