@@ -62,5 +62,17 @@
   </div>
 </div>
 
+<div class="container">
+  <div class="row">
+    <div id="card-wrapper" class="col-12">
+      <h5 class="text-right">＜期間：1分足＞</h5>
+      <div class="card response-output" data-money-abbreviation="<%= @money.abbreviation %>">
+        <div class="card-body svg-box candlestick-1min <%= @money.abbreviation%>">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <%= link_to 'Edit', edit_money_path(@money) %> |
 <%= link_to 'Back', money_index_path %>
