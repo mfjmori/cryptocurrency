@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+
   before_action :get_all_money
   before_action :configure_permitted_parameters, if: :devise_controller?
 
