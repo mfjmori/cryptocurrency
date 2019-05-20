@@ -1,0 +1,12 @@
+<tr class="bg-white">
+  <th class="money_name" data-money-abbreviation="<%= money.abbreviation %>" ><%= money.name %></td>
+  <td><%= money.abbreviation.upcase %></td>
+  <td class="middle-rate" id="<%= money.abbreviation %>">エラー</td>
+  <td class="buy-order-value" id="<%= money.abbreviation %>">エラー</td>
+  <td class="sell-order-value" id="<%= money.abbreviation %>">エラー</td>
+  <% if signed_in? && current_user.admin? %>
+    <td><%= link_to 'Show', money, data: {"turbolinks" => false} %></td>
+    <td><%= link_to 'Edit', edit_money_path(money) %></td>
+    <td><%= link_to 'Destroy', money, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <% end %>
+</tr>

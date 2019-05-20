@@ -1,0 +1,14 @@
+<div id="card-wrapper" class="col-md-6">
+  <div class="card response-output shadow-sm" data-money-abbreviation="<%= money.abbreviation %>">
+    <%= link_to money_path(money) do %>
+      <div class="card-body svg-box candlestick-day <%= money.abbreviation %>">
+        <h4 class="card-title"><%= money.abbreviation.upcase %>(<%= money.name%>)</h4>
+        <div class="rate-box row col-11 offset-1">
+          <h2 class="middle-rate ml-auto mr-0" id="<%= money.abbreviation %>"></h2>
+          <h4 class="jpy mr-0">円</h4>
+        </div>
+        <h5 class="card-text text-right compare-previous-day" id="<%= money.abbreviation %>">前日比〇〇円（＋〇〇％）</h5>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -16,20 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @money.each do |money| %>
-        <tr class="bg-white">
-          <th class="money_name" data-money-abbreviation="<%= money.abbreviation %>" ><%= money.name %></td>
-          <td><%= money.abbreviation.upcase %></td>
-          <td class="middle-rate" id="<%= money.abbreviation %>">エラー</td>
-          <td class="buy-order-value" id="<%= money.abbreviation %>">エラー</td>
-          <td class="sell-order-value" id="<%= money.abbreviation %>">エラー</td>
-          <% if signed_in? && current_user.admin? %>
-            <td><%= link_to 'Show', money, data: {"turbolinks" => false} %></td>
-            <td><%= link_to 'Edit', edit_money_path(money) %></td>
-            <td><%= link_to 'Destroy', money, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% end %>
-        </tr>
-      <% end %>
+      <%= render partial: 'money_table', collection: @money, as: 'money' %>
     </tbody>
   </table>
   </div>
@@ -41,21 +28,6 @@
   <p class="text-right">※2 bitbankの取引価格を表示</p>
   <h5 class="text-right">＜期間：日足＞</h5>
   <div class="row">
-    <% @money.each do |money| %>
-      <div id="card-wrapper" class="col-md-6">
-        <div class="card response-output shadow-sm" data-money-abbreviation="<%= money.abbreviation %>">
-          <%= link_to money_path(money) do %>
-            <div class="card-body svg-box candlestick-day <%= money.abbreviation %>">
-              <h4 class="card-title"><%= money.abbreviation.upcase %>(<%= money.name%>)</h4>
-              <div class="rate-box row col-11 offset-1">
-                <h2 class="middle-rate ml-auto mr-0" id="<%= money.abbreviation %>"></h2>
-                <h4 class="jpy mr-0">円</h4>
-              </div>
-              <h5 class="card-text text-right compare-previous-day" id="<%= money.abbreviation %>">前日比〇〇円（＋〇〇％）</h5>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
+    <%= render @money %>
   </div>
 </div>
