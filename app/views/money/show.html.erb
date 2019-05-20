@@ -12,7 +12,7 @@
               <h4 class="jpy mr-0">円</h4>
             </div>
           </div>
-          <h5 class="card-text text-right compare-previous-day" id="<%= @money.abbreviation %>">前日比〇〇円（＋〇〇％）</h5>
+          <h5 class="card-text text-right compare-previous-day" id="<%= @money.abbreviation %>">前日比（取得中）</h5>
         </div>
       </div>
     </div>
@@ -30,8 +30,8 @@
       </thead>
       <tbody>
         <tr class="bg-white">
-          <td class="buy-order-value" id="<%= @money.abbreviation %>">エラー</td>
-          <td class="sell-order-value" id="<%= @money.abbreviation %>">エラー</td>
+          <td class="buy-order-value" id="<%= @money.abbreviation %>">取得中</td>
+          <td class="sell-order-value" id="<%= @money.abbreviation %>">取得中</td>
         </tr>
       </tbody>
     </table>
