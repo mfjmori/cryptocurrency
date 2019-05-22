@@ -1,5 +1,5 @@
-<div id="card-wrapper" class="col-md-6">
-  <div class="card response-output shadow-sm" data-money-abbreviation="<%= money.abbreviation %>">
+<div id="card-wrapper" class="candlestick-card-wrapper col-md-6" data-money-abbreviation="<%= money.abbreviation %>">
+  <div class="card shadow-sm">
     <%= link_to money_path(money) do %>
       <div class="card-body svg-box candlestick-day <%= money.abbreviation %>">
         <h4 class="card-title"><%= money.abbreviation.upcase %>(<%= money.name%>)</h4>

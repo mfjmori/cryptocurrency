@@ -1,5 +1,5 @@
-<tr class="bg-white">
-  <th class="money_name" data-money-abbreviation="<%= money.abbreviation %>" ><%= money.name %></td>
+<tr class="bg-white money-table-row" data-money-id="<%= money.id %>" data-money-abbreviation="<%= money.abbreviation %>">
+  <th class="money_name" ><%= money.name %></td>
   <td><%= money.abbreviation.upcase %></td>
   <td class="middle-rate" id="<%= money.abbreviation %>">取得中</td>
   <td class="buy-order-value" id="<%= money.abbreviation %>">取得中</td>

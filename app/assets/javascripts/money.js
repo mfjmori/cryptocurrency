@@ -48,10 +48,16 @@ $(function() {
 
   // Tickerを取得して現在の価格（買値、売値、仲値）のテキストを挿入する
   function reloadTicker(money_abbreviation) {
-    var requestUrl = `https://public.bitbank.cc/${money_abbreviation}_jpy/ticker`;
-    $.ajax(requestUrl)
-    .done(function(data) {
-      var json = JSON.parse(data);
+    // api/money_controllerに送る
+    var money_id = $(".money-table").data("money-id");
+    var requestUrl = `/api/money/${money_id}`;
+    $.ajax({
+      url: requestUrl,
+      type: 'get',
+      dataType: 'json',
+      data: {type: 'ticker', money_abbreviation: money_abbreviation}
+    })
+    .done(function(json) {
       var sell_order_value = Number(json.data.sell);
       var buy_order_value = Number(json.data.buy);
       var middle_rate = (Number(sell_order_value) + Number(buy_order_value)) / 2;
@@ -59,7 +65,6 @@ $(function() {
       $(".buy-order-value" + "#" + money_abbreviation).text(buy_order_value.toLocaleString());
       $(".sell-order-value" + "#" + money_abbreviation).text(sell_order_value.toLocaleString());
       $(".middle-rate" + "#" + money_abbreviation).text(middle_rate.toLocaleString());
-      console.log("読み込みました");
       reloadComperePreviousDay (money_abbreviation, middle_rate)
     })
     .fail(function() {
@@ -69,12 +74,15 @@ $(function() {
 
   // 前日の終値を取得して、前日比を挿入する
   function reloadComperePreviousDay (money_abbreviation, current_middle_rate) {
-    var now = new Date();
-    var thisyear = now.getFullYear();
-    var requestUrl = `https://public.bitbank.cc/${money_abbreviation}_jpy/candlestick/1day/${thisyear}`;
-    $.ajax(requestUrl)
-    .done(function(data) {
-      var json = JSON.parse(data);
+    var money_id = $(".money-table").data("money-id");
+    var requestUrl = `/api/money/${money_id}`;
+    $.ajax({
+      url: requestUrl,
+      type: 'get',
+      dataType: 'json',
+      data: {type: 'previous_day', money_abbreviation: money_abbreviation}
+    })
+    .done(function(json) {
       var row_data_list = json.data.candlestick[0].ohlcv;
       var data_length = row_data_list.length;
       var previous_day_data = row_data_list[data_length - 2];
@@ -100,14 +108,13 @@ $(function() {
 
   // コントローラーとアクションによる条件分岐
   if (current_controller == "money" && current_action == "show") {
-    var money_abbreviation = $(".response-output").data("money-abbreviation");
+    var money_abbreviation = $(".money-table").data("money-abbreviation");
     reloadsNewData(money_abbreviation);
   } else if (current_controller == "money" && current_action == "index") {
-    var money_names = $(".money_name");
-    $.each(money_names, function(index, money_name) {
-      var money_abbreviation = $(money_name).data("money-abbreviation");
+    var money_table_rows = $(".money-table-row");
+    $.each(money_table_rows, function(index, money_table_row) {
+      var money_abbreviation = $(money_table_row).data("money-abbreviation");
       reloadsNewData(money_abbreviation);
     });
   }
-
 });
