@@ -38,7 +38,15 @@
   </div>
 <div>
 
-<div class="container">
+<%# <div class="btn-group float-right mb-3" role="group" id="candlestick-select-button" aria-label="Basic example">
+  <button type="button" class="btn btn-primary active" id="candlestick-day-button">日足</button>
+  <button type="button" class="btn btn-secondary" id="candlestick-5min-button">５分足</button>
+  <button type="button" class="btn btn-secondary" id="candlestick-1min-button">１分足</button>
+</div> %>
+
+<div class="clearfix"></div>
+
+<div class="container" id="candlestick-day-container">
   <div class="row">
     <div id="card-wrapper" class="col-12">
       <h5 class="text-right">＜期間：日足＞</h5>
@@ -50,7 +58,7 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container" id="candlestick-5min-container">
   <div class="row">
     <div id="card-wrapper" class="col-12">
       <h5 class="text-right">＜期間：5分足＞</h5>
@@ -62,7 +70,7 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container" id="candlestick-1min-container">
   <div class="row">
     <div id="card-wrapper" class="col-12">
       <h5 class="text-right">＜期間：1分足＞</h5>
