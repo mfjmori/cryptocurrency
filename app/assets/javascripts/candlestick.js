@@ -185,7 +185,7 @@ $(function() {
     var xAxis = d3.axisBottom()
             .scale(x)
             .tickFormat(d3.timeFormat("%H:%M")) // 分足なので、時：分表示にする
-            .ticks(width/90) // 10データずつにメモリ表示;
+            .ticks(width/90) // 何データずつメモリ表示するか;
  
     var yAxis = d3.axisLeft()
             .scale(y)
@@ -328,7 +328,6 @@ $(function() {
     // Get the data
     var money_id = $(".money-table").data("money-id");
     var requestUrl = `/api/money/${money_id}`;
-    console.log(requestUrl);
     $.ajax({
       url: requestUrl,
       type: 'get',
