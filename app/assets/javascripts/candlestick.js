@@ -35,11 +35,10 @@ $(function() {
 
   //日足ローソクチャートを表示する関数
   function displayDateCandlestick(modified_data, money_abbreviation) {
-    $(`.${money_abbreviation}` + ".candlestick-day").children("svg").remove();
+  $(`.${money_abbreviation}` + ".candlestick-day").children("svg").remove();
     col_width = $(".candlestick-day").width();
     col_height = col_width / 8 * 5;
     
-
     // set the dimensions and margins of the graph
     var margin = {top: 5, right: 5, bottom: 30, left: 70},
             width = col_width - margin.left - margin.right,
@@ -63,6 +62,14 @@ $(function() {
     var candlestick = techan.plot.candlestick()
             .xScale(x)
             .yScale(y);
+
+    var xAxis = d3.axisBottom()
+            .scale(x)
+            .ticks(width/90) // 何データずつメモリ表示するか;
+
+    var yAxis = d3.axisLeft()
+            .scale(y)
+            .ticks(height/70);
   
     // define the sma(移動平均線)
     var sma = techan.plot.sma()
@@ -125,15 +132,14 @@ $(function() {
 
     // Add the X Axis
     svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x)
-              .ticks(width/90));
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
 
     // Add the Y Axis
     svg.append("g")
-            .call(d3.axisLeft(y)
-              .ticks(height/70));
+          .attr("class", "y axis")
+          .call(yAxis);
 
     // Add the Volume-Y Axis
     svg.append("g")
@@ -186,7 +192,7 @@ $(function() {
             .scale(x)
             .tickFormat(d3.timeFormat("%H:%M")) // 分足なので、時：分表示にする
             .ticks(width/90) // 何データずつメモリ表示するか;
- 
+
     var yAxis = d3.axisLeft()
             .scale(y)
             .ticks(height/70);
@@ -271,12 +277,11 @@ $(function() {
 
     // Add the Y Axis
     svg.append("g")
-          .call(yAxis)
-          ;
+          .attr("class", "y axis")
+          .call(yAxis);
 
     // Add the Y Axis
     svg.append("g")
-          .attr("class", "y axis")
           .append("text")
           .attr("transform", "rotate(-90)") // Y軸ラベルを縦書きに
           .attr("y", 6)
@@ -361,6 +366,7 @@ $(function() {
 
   //コントローラーとアクションによる条件分岐
   if (current_controller == "money" && current_action == "show" ) {
+
     // 仮想通貨種別を取得
     var money_abbreviation = $(".money-table").data("money-abbreviation");
 
@@ -370,10 +376,12 @@ $(function() {
     getAPIAndDisplayMinCandlestick(money_abbreviation, "5min");
 
     // 1分足チャートを描画する
+    
     $(document).ready(function(){
       getAPIAndDisplayMinCandlestick(money_abbreviation, "1min");
     });
     setInterval(function(){getAPIAndDisplayMinCandlestick(money_abbreviation, "1min")}, 10000);
+    
 
   } else if (current_controller == "money" && current_action == "index") {
     // 仮想通貨種別を取得
@@ -385,4 +393,6 @@ $(function() {
       getAPIAndDisplayDateCandlestick(a_money_abbreviation);
     });
   }
+
+
 });
