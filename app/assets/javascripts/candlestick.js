@@ -67,7 +67,7 @@ $(function() {
     if (candle_type == "day") {
       var xAxis = d3.axisBottom()
       .scale(x)
-      .ticks(width/90); // 何データずつメモリ表示するか;
+      .ticks(width/100); // 何データずつメモリ表示するか;
     } else {
       var xAxis = d3.axisBottom()
       .scale(x)
