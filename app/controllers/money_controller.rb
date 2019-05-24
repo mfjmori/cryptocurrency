@@ -50,6 +50,6 @@ class MoneyController < ApplicationController
     end
 
     def move_to_index
-      redirect_to( { action: :index }, { notice: '権限がありません' }) unless admin_user?
+      redirect_to( { action: :index }, { notice: '権限がありません' }) unless current_user.try!(:admin?)
     end
 end

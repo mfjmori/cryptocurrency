@@ -82,7 +82,7 @@
   </div>
 </div>
 
-<% if signed_in? && current_user.admin? %>
-  <%= link_to 'Edit', edit_money_path(@money) if current_user && current_user.admin? %> |
+<% if current_user.try(:admin?) %>
+  <%= link_to 'Edit', edit_money_path(@money) if current_user.try!(:admin?) %> |
   <%= link_to 'Back', money_index_path %>
 <% end %>

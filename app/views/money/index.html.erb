@@ -10,7 +10,7 @@
         <th>レート(仲値)</th>
         <th>買値</th>
         <th>売値</th>
-        <% if signed_in? && current_user.admin? %>
+        <% if current_user.try!(:admin?) %>
           <th colspan="3"></th>
         <% end %>
       </tr>
@@ -20,7 +20,7 @@
     </tbody>
   </table>
   </div>
-  <%= link_to 'New money', new_money_path if current_user && current_user.admin? %>
+  <%= link_to 'New money', new_money_path if current_user.try!(:admin?) %>
 </div>
 
 <div class="container">
