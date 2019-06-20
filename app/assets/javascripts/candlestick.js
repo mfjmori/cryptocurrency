@@ -41,7 +41,7 @@ $(function() {
     col_height = col_width / 8 * 5;
 
     // set the dimensions and margins of the graph
-    var margin = {top: 5, right: 5, bottom: 30, left: 70},
+    var margin = {top: 5, right: 5, bottom: 30, left: 80},
     width = col_width - margin.left - margin.right,
     height = col_height - margin.top - margin.bottom;
 
@@ -67,7 +67,7 @@ $(function() {
     if (candle_type == "day") {
       var xAxis = d3.axisBottom()
       .scale(x)
-      .ticks(width/100); // 何データずつメモリ表示するか;
+      .ticks(width/110); // 何データずつメモリ表示するか;
     } else {
       var xAxis = d3.axisBottom()
       .scale(x)
