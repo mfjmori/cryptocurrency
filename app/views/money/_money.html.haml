@@ -1,0 +1,11 @@
+#card-wrapper.candlestick-card-wrapper.col-md-6{"data-money-abbreviation" => "#{money.abbreviation}"}
+  .card.shadow-sm
+    = link_to money_path(money) do
+      %div{:class => "card-body svg-box candlestick-day #{money.abbreviation}"}
+        %h4.card-title
+          = money.abbreviation.upcase
+          (#{money.name})
+        .rate-box.row.col-11.offset-1
+          %h2.middle-rate.ml-auto.mr-0{:id => "#{money.abbreviation}"}
+          %h4.jpy.mr-0 円
+        %h5.card-text.text-right.compare-previous-day{:id => "#{money.abbreviation}"} 前日比（取得中）

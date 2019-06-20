@@ -1,0 +1,23 @@
+%p#notice= notice
+.container
+  .d-none.d-md-block
+    %h2.text-center.font-weight-bold 仮想通貨一覧
+    %table.table.table-sm.col-12
+      %thead.bg-warning
+        %tr
+          %th 仮想通貨
+          %th 略称
+          %th レート(仲値)
+          %th 買値
+          %th 売値
+          - if current_user.try!(:admin?)
+            %th{:colspan => "3"}
+      %tbody
+        = render partial: 'money_table', collection: @money, as: 'money'
+  = link_to 'New money', new_money_path if current_user.try!(:admin?)
+.container
+  %p.text-right ※1 前日比は前日のPM9時の値が基準
+  %p.text-right ※2 bitbankの取引価格を表示
+  %h5.text-right ＜単位：日足＞
+  .row
+    = render @money

@@ -1,0 +1,17 @@
+= form_with(model: money, local: true) do |form|
+  - if money.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(money.errors.count, "error")
+        prohibited this money from being saved:
+      %ul
+        - money.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = form.label :name
+    = form.text_field :name
+  .field
+    = form.label :abbreviation
+    = form.text_field :abbreviation
+  .actions
+    = form.submit
