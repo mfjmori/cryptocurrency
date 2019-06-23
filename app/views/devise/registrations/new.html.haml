@@ -4,6 +4,7 @@
   .field
     = f.label :nickname
     %em (10 characters miximum)
+    %br/
     = f.text_field :nickname, autofocus: true, maxlength: "6"
   .field
     = f.label :email
@@ -20,9 +21,6 @@
     = f.label :password_confirmation
     %br/
     = f.password_field :password_confirmation, autocomplete: "new-password"
-  .field
-    = f.label :role, "管理者権限"
-    = f.number_field :role, min: 0, max: 1
   .actions
     = f.submit "Sign up"
 = render "devise/shared/links"
