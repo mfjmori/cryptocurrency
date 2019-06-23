@@ -1,0 +1,19 @@
+%nav.navbar.navbar-expand-lg.navbar-light.navbar-dark.bg-dark
+  = link_to money_index_path, {class: "navbar-brand"} do
+    %h3 Cryptocurrency
+  %button#navbar-toggler.navbar-toggler{"aria-controls" => "navbarNavDropdown", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarNavDropdown", "data-toggle" => "collapse", :type => "button"}
+    %span.navbar-toggler-icon
+  #navbarNavDropdown.collapse.navbar-collapse
+    %ul.navbar-nav.mr-0.ml-auto
+      %li.nav-item
+        = link_to "新規登録", new_user_registration_path, class: "nav-link" unless signed_in?
+      %li.nav-item
+        = link_to "ログイン", new_user_session_path, class: "nav-link" unless signed_in?
+      %li.nav-item
+        = link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" if signed_in?
+      %li.nav-item.dropdown
+        %a#navbarDropdownMenuLink.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#"}
+          仮想通貨一覧
+        #dropdown-menu.dropdown-menu{"aria-labelledby" => "navbarDropdownMenuLink"}
+          - all_money.each do |money|
+            = link_to money.name, money, class: "dropdown-item"

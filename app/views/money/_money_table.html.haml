@@ -1,0 +1,11 @@
+%tr.bg-white.money-table-row{"data-money-abbreviation" => "#{money.abbreviation}", "data-money-id" => "#{money.id}"}
+  %th.money_name
+    = money.name
+  %td= money.abbreviation.upcase
+  %td.middle-rate{:id => "#{money.abbreviation}"} 取得中
+  %td.buy-order-value{:id => "#{money.abbreviation}"} 取得中
+  %td.sell-order-value{:id => "#{money.abbreviation}"} 取得中
+  - if signed_in? && current_user.admin?
+    %td= link_to 'Show', money, data: {"turbolinks" => false}
+    %td= link_to 'Edit', edit_money_path(money)
+    %td= link_to 'Destroy', money, method: :delete, data: { confirm: 'Are you sure?' }
