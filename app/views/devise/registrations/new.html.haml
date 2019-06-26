@@ -1,26 +1,14 @@
-%h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-signin"}) do |f|
+  %h2.text-center.mb-3.mt-5 Please Sign Up
   = render "devise/shared/error_messages", resource: resource
-  .field
-    = f.label :nickname
-    %em (10 characters miximum)
-    %br/
-    = f.text_field :nickname, autofocus: true, maxlength: "6"
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-    %br/
-    = f.password_field :password, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "new-password"
+  .field.form-label-group.mb-3.mt-5
+    = f.text_field :nickname, autofocus: true, maxlength: "6", placeholder: "Nickname (10 characters miximum)", class: "form-control"
+  .field.form-label-group.mb-3
+    = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" , class: "form-control"
+  .field.form-label-group.mb-3
+    = f.password_field :password, autocomplete: "new-password", placeholder: "Password #{@minimum_password_length} characters minimum", class: "form-control"
+  .field.form-label-group.mb-4
+    = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "password confirmation", class: "form-control"
   .actions
-    = f.submit "Sign up"
-= render "devise/shared/links"
+    = f.submit "Sign up", class: "btn btn-lg btn-primary btn-block"
+  = render "devise/shared/links"
