@@ -6,7 +6,7 @@
   .field.form-label-group.mb-3
     = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" , class: "form-control"
   .field.form-label-group.mb-3
-    = f.password_field :password, autocomplete: "new-password", placeholder: "Password #{@minimum_password_length} characters minimum", class: "form-control"
+    = f.password_field :password, autocomplete: "new-password", placeholder: "Password (#{@minimum_password_length} characters minimum)", class: "form-control"
   .field.form-label-group.mb-4
     = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "password confirmation", class: "form-control"
   .actions
