@@ -13,12 +13,12 @@
 ActiveRecord::Schema.define(version: 2019_06_27_042315) do
 
   create_table "buy_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "crypto_assets_id"
+    t.bigint "crypto_asset_id"
     t.float "number", null: false
     t.float "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["crypto_assets_id"], name: "index_buy_orders_on_crypto_assets_id"
+    t.index ["crypto_asset_id"], name: "index_buy_orders_on_crypto_asset_id"
   end
 
   create_table "cash_assets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -50,12 +50,12 @@ ActiveRecord::Schema.define(version: 2019_06_27_042315) do
   end
 
   create_table "sell_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "crypto_assets_id"
+    t.bigint "crypto_asset_id"
     t.float "number", null: false
     t.float "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["crypto_assets_id"], name: "index_sell_orders_on_crypto_assets_id"
+    t.index ["crypto_asset_id"], name: "index_sell_orders_on_crypto_asset_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -72,10 +72,10 @@ ActiveRecord::Schema.define(version: 2019_06_27_042315) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "buy_orders", "crypto_assets", column: "crypto_assets_id"
+  add_foreign_key "buy_orders", "crypto_assets"
   add_foreign_key "cash_assets", "money"
   add_foreign_key "cash_assets", "users"
   add_foreign_key "crypto_assets", "money"
   add_foreign_key "crypto_assets", "users"
-  add_foreign_key "sell_orders", "crypto_assets", column: "crypto_assets_id"
+  add_foreign_key "sell_orders", "crypto_assets"
 end
