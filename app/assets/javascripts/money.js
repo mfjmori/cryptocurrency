@@ -106,15 +106,34 @@ $(function() {
     setInterval(function(){reloadTicker(money_abbreviation)}, 10000);
   };
 
-  // コントローラーとアクションによる条件分岐
-  if (current_controller == "money" && current_action == "show") {
-    var money_abbreviation = $(".money-table").data("money-abbreviation");
-    reloadsNewData(money_abbreviation);
-  } else if (current_controller == "money" && current_action == "index") {
-    var money_table_rows = $(".money-table-row");
-    $.each(money_table_rows, function(index, money_table_row) {
-      var money_abbreviation = $(money_table_row).data("money-abbreviation");
-      reloadsNewData(money_abbreviation);
+  // 数量を入力したときに概算約定代金を挿入
+  function setBuyOrderPrice(money_abbreviation) {
+    $('#input-buy-order-number').on('keyup', function() {
+      var input_buy_order_number = $(this).val();
+      $('#buy-order-price').text("0");
+      if (input_buy_order_number >= 0.0001 && input_buy_order_number <= 10000000) {
+        var buy_order_value = $('.buy-order-value').text().replace(/,/g, "");
+        var buy_order_price = Math.ceil(input_buy_order_number * buy_order_value);
+        $('#buy-order-price').text(`${buy_order_price.toLocaleString()}`);
+      }
     });
+  }
+
+
+  // コントローラーとアクションによる条件分岐
+  switch(current_controller + "#" + current_action) {
+    case "money#show":
+    case "buy_orders#new":
+      var money_abbreviation = $(".money-table").data("money-abbreviation");
+      reloadsNewData(money_abbreviation);
+      setBuyOrderPrice(money_abbreviation)
+      break;
+    case "money#index":
+      var money_table_rows = $(".money-table-row");
+      $.each(money_table_rows, function(index, money_table_row) {
+        var money_abbreviation = $(money_table_row).data("money-abbreviation");
+        reloadsNewData(money_abbreviation);
+      });
+      break;
   }
 });

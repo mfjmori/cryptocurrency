@@ -1,0 +1,41 @@
+%p#notice= notice
+.container
+  .row
+    #card-wrapper.col-12.px-3
+      %h3.text-center.font-weight-bold.text-danger.text-white 買い注文
+      .card.mb-2
+        .card-body.p-2
+          .row
+            %h4.card-title.col-6
+              = @money.abbreviation.upcase
+              (#{@money.name})
+            .rate-box.row.col-6
+              %h2.middle-rate.ml-auto.mr-0{:id => "#{@money.abbreviation}"}
+              %h4.jpy.mr-0 円
+          %h5.card-text.text-right.compare-previous-day{:id => "#{@money.abbreviation}"} 前日比（取得中）
+.container
+  %div
+    %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{@money.abbreviation}", "data-money-id" => "#{@money.id}"}
+      %thead.bg-warning
+        %tr
+          %th 買値
+          %th 売値
+      %tbody
+        %tr.bg-white
+          %td.buy-order-value{id: "#{@money.abbreviation}"} 取得中
+          %td.sell-order-value{id: "#{@money.abbreviation}"} 取得中
+.container
+  = form_with(model: [@money, @buy_order], local: true) do |f|
+    .buy-order-range.mb-3.text-secondary 
+      = "販売単位(0.0001 #{@money.abbreviation.upcase} 〜 100 #{@money.abbreviation.upcase})"
+    .row.form-group
+      = f.label :number, "数量(#{@money.abbreviation.upcase})", class: "col-6 mb-0 d-flex align-items-center font-weight-bold"
+      .col-6
+        = f.number_field :number, class: "form-control", id: "input-buy-order-number"
+    .row.mb-5
+      .col-6.font-weight-bold 概算約定代金
+      .h4.col-6.text-right
+        %span#buy-order-price 0
+        円
+    = f.submit "注文する", class: "btn btn-lg btn-danger btn-block mt-3"
+
