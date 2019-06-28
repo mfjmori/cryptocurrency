@@ -1,18 +1,6 @@
 %p#notice= notice
-.container
-  .row
-    #card-wrapper.col-lg-8.offset-lg-2.col-xl-8.offset-xl-2.px-3
-      %h3.text-center.font-weight-bold.text-danger.text-white 買い注文
-      .card.mb-2
-        .card-body.p-2
-          .row
-            %h4.card-title.col-6
-              = @money.abbreviation.upcase
-              (#{@money.name})
-            .rate-box.row.col-6
-              %h2.middle-rate.ml-auto.mr-0{:id => "#{@money.abbreviation}"}
-              %h4.jpy.mr-0 円
-          %h5.card-text.text-right.compare-previous-day{:id => "#{@money.abbreviation}"} 前日比（取得中）
+%h3.text-center.font-weight-bold.text-danger.text-white 買い注文
+= render "shared/rate", money: @money
 .container
   .row
     .col-lg-8.offset-lg-2.col-xl-8.offset-xl-2
@@ -27,8 +15,12 @@
             %td
               = @crypto_asset.user.cash_asset.number.to_s(:delimited)
               円
-            %td.buy-order-value{id: "#{@money.abbreviation}"} 取得中
-            %td.sell-order-value{id: "#{@money.abbreviation}"} 取得中
+            %td
+              %span.buy-order-value{id: "#{@money.abbreviation}"} 取得中
+              %span 円
+            %td
+              %span.sell-order-value{id: "#{@money.abbreviation}"} 取得中
+              %span 円
 .container
   .row
     = form_with(model: [@money, @buy_order], local: true, class: "col-lg-8 offset-lg-2 col-xl-8 offset-xl-2") do |f|

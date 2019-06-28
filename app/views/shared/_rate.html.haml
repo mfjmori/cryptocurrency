@@ -1,0 +1,13 @@
+.container
+  .row
+    #card-wrapper{class: [controller.action_name == "new" ? "col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 px-3" : "col-12 px-3"]}
+      .card.mb-2
+        .card-body.p-2
+          .row
+            %h4.card-title.col-6
+              = money.abbreviation.upcase
+              (#{money.name})
+            .rate-box.row.col-6
+              %h2.middle-rate.ml-auto.mr-0{:id => "#{money.abbreviation}"}
+              %h4.jpy.mr-0 円
+          %h5.card-text.text-right.compare-previous-day{:id => "#{money.abbreviation}"} 前日比（取得中）

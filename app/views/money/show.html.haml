@@ -1,23 +1,12 @@
 %p#notice= notice
 .container
-  .row.mb-3
+  .row.mb-5
     .offset-6.col-3
       = button_to "買い注文", new_money_buy_order_path(@money), method: :get, class: "btn btn-danger col-12"
     .col-3
       = button_to "売り注文", new_money_sell_order_path(@money), method: :get, class: "btn btn-primary col-12"
-  .row
-    #card-wrapper.col-12.px-3
-      %h3.text-center.font-weight-bold チャート詳細
-      .card.mb-2
-        .card-body.p-2
-          .row
-            %h4.card-title.col-6
-              = @money.abbreviation.upcase
-              (#{@money.name})
-            .rate-box.row.col-6
-              %h2.middle-rate.ml-auto.mr-0{:id => "#{@money.abbreviation}"}
-              %h4.jpy.mr-0 円
-          %h5.card-text.text-right.compare-previous-day{:id => "#{@money.abbreviation}"} 前日比（取得中）
+%h3.text-center.font-weight-bold チャート詳細
+= render "shared/rate", money: @money
 .container
   %div
     %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{@money.abbreviation}", "data-money-id" => "#{@money.id}"}
@@ -27,8 +16,12 @@
           %th 売値
       %tbody
         %tr.bg-white
-          %td.buy-order-value{:id => "#{@money.abbreviation}"} 取得中
-          %td.sell-order-value{:id => "#{@money.abbreviation}"} 取得中
+          %td
+            %span.buy-order-value{:id => "#{@money.abbreviation}"} 取得中
+            %span 円
+          %td
+            %span.sell-order-value{:id => "#{@money.abbreviation}"} 取得中
+            %span 円
 .container
   %div
     .clearfix
