@@ -62,9 +62,9 @@ $(function() {
       var buy_order_value = Number(json.data.buy);
       var middle_rate = (Number(sell_order_value) + Number(buy_order_value)) / 2;
       middle_rate = myRound(middle_rate, getDecimalPlaces(sell_order_value));
-      $(".buy-order-value" + "#" + money_abbreviation).text(buy_order_value.toLocaleString());
-      $(".sell-order-value" + "#" + money_abbreviation).text(sell_order_value.toLocaleString());
-      $(".middle-rate" + "#" + money_abbreviation).text(middle_rate.toLocaleString());
+      $(".buy-order-value" + "#" + money_abbreviation).text(buy_order_value.toLocaleString() + " 円");
+      $(".sell-order-value" + "#" + money_abbreviation).text(sell_order_value.toLocaleString() + " 円");
+      $(".middle-rate" + "#" + money_abbreviation).text(middle_rate.toLocaleString() + " 円");
       reloadComperePreviousDay (money_abbreviation, middle_rate)
     })
     .fail(function() {
@@ -112,7 +112,7 @@ $(function() {
       var input_buy_order_number = $(this).val();
       $('#buy-order-price').text("0");
       if (input_buy_order_number >= 0.0001 && input_buy_order_number <= 10000000) {
-        var buy_order_value = $('.buy-order-value').text().replace(/,/g, "");
+        var buy_order_value = $('.buy-order-value').text().replace(/[,円 ]/g, "");
         var buy_order_price = Math.ceil(input_buy_order_number * buy_order_value);
         $('#buy-order-price').text(`${buy_order_price.toLocaleString()}`);
       }
