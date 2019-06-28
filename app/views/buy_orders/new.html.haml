@@ -1,7 +1,7 @@
 %p#notice= notice
 .container
   .row
-    #card-wrapper.col-12.px-3
+    #card-wrapper.col-lg-8.offset-lg-2.col-xl-8.offset-xl-2.px-3
       %h3.text-center.font-weight-bold.text-danger.text-white 買い注文
       .card.mb-2
         .card-body.p-2
@@ -14,16 +14,21 @@
               %h4.jpy.mr-0 円
           %h5.card-text.text-right.compare-previous-day{:id => "#{@money.abbreviation}"} 前日比（取得中）
 .container
-  %div
-    %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{@money.abbreviation}", "data-money-id" => "#{@money.id}"}
-      %thead.bg-warning
-        %tr
-          %th 買値
-          %th 売値
-      %tbody
-        %tr.bg-white
-          %td.buy-order-value{id: "#{@money.abbreviation}"} 取得中
-          %td.sell-order-value{id: "#{@money.abbreviation}"} 取得中
+  .row
+    .col-lg-8.offset-lg-2.col-xl-8.offset-xl-2
+      %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{@money.abbreviation}", "data-money-id" => "#{@money.id}"}
+        %thead.bg-warning
+          %tr
+            %th 買付可能額
+            %th 買値
+            %th 売値
+        %tbody
+          %tr.bg-white
+            %td
+              = @crypto_asset.user.cash_asset.number.to_s(:delimited)
+              円
+            %td.buy-order-value{id: "#{@money.abbreviation}"} 取得中
+            %td.sell-order-value{id: "#{@money.abbreviation}"} 取得中
 .container
   .row
     = form_with(model: [@money, @buy_order], local: true, class: "col-lg-8 offset-lg-2 col-xl-8 offset-xl-2") do |f|
