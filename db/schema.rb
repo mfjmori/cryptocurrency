@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_27_042315) do
+ActiveRecord::Schema.define(version: 2019_06_28_044650) do
 
   create_table "buy_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "crypto_asset_id"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2019_06_27_042315) do
     t.bigint "user_id", null: false
     t.bigint "money_id", null: false
     t.float "number", default: 0.0, null: false
-    t.float "payed_cash", default: 0.0, null: false
+    t.integer "payed_cash", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["money_id"], name: "index_crypto_assets_on_money_id"
