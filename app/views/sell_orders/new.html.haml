@@ -1,0 +1,51 @@
+%p#notice= notice
+%h3.text-center.font-weight-bold.text-primary.text- 売り注文
+= render "shared/rate", money: @money
+.container
+  .row
+    .col-lg-8.offset-lg-2.col-xl-8.offset-xl-2
+      %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{@money.abbreviation}", "data-money-id" => "#{@money.id}"}
+        %thead.bg-warning
+          %tr
+            %th 保有数量
+            %th 平均取得単価
+            %th 買値
+            %th 売値
+        %tbody
+          %tr.bg-white
+            %td
+              = @crypto_asset.number == 0 ? "-" : @crypto_asset.number.to_s(:delimited)
+            %td#average_cost
+              = @crypto_asset.average_cost
+            %td
+              %span.buy-order-value{id: "#{@money.abbreviation}"} 取得中
+              %span 円
+            %td
+              %span.sell-order-value{id: "#{@money.abbreviation}"} 取得中
+              %span 円
+.container
+  .row
+    = form_with(model: [@money, @sell_order], local: true, class: "col-lg-8 offset-lg-2 col-xl-8 offset-xl-2") do |f|
+      .sell-order-range.mb-3.text-secondary 
+        = "販売単位(0.0001 #{@money.abbreviation.upcase} 〜 100 #{@money.abbreviation.upcase})"
+      .row.form-group
+        = f.label :number, "数量(#{@money.abbreviation.upcase})", class: "col-6 mb-0 d-flex align-items-center font-weight-bold"
+        .col-6
+          = f.number_field :number, min: "0.0001", max: "#{@crypto_asset.number}", class: [flash[:error].present? ? "form-control is-invalid" : "form-control"] , id: "input-sell-order-number", step: "0.0001"
+      .row
+        - if flash[:error].present?
+          %ul.errors.offset-6
+            - flash[:error].each do |e|
+              %li.text-danger
+                = e
+      .row.mb-3
+        .col-6.font-weight-bold 概算約定代金
+        .h4.col-6.text-right
+          %span#sell-order-price 0
+          円
+      .row.mb-5
+        .col-6.font-weight-bold 見込み損益
+        .h4.col-6.text-right
+          %span#sell-order-profit 0
+          円
+      = f.submit "注文する", class: "btn btn-lg btn-primary btn-block mt-3"

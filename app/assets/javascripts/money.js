@@ -62,9 +62,9 @@ $(function() {
       var buy_order_value = Number(json.data.buy);
       var middle_rate = (Number(sell_order_value) + Number(buy_order_value)) / 2;
       middle_rate = myRound(middle_rate, getDecimalPlaces(sell_order_value));
-      $(".buy-order-value" + "#" + money_abbreviation).text(buy_order_value.toLocaleString() + " 円");
-      $(".sell-order-value" + "#" + money_abbreviation).text(sell_order_value.toLocaleString() + " 円");
-      $(".middle-rate" + "#" + money_abbreviation).text(middle_rate.toLocaleString() + " 円");
+      $(".buy-order-value" + "#" + money_abbreviation).text(buy_order_value.toLocaleString());
+      $(".sell-order-value" + "#" + money_abbreviation).text(sell_order_value.toLocaleString());
+      $(".middle-rate" + "#" + money_abbreviation).text(middle_rate.toLocaleString());
       reloadComperePreviousDay (money_abbreviation, middle_rate)
     })
     .fail(function() {
@@ -106,27 +106,55 @@ $(function() {
     setInterval(function(){reloadTicker(money_abbreviation)}, 10000);
   };
 
-  // 数量を入力したときに概算約定代金を挿入
-  function setBuyOrderPrice(money_abbreviation) {
-    $('#input-buy-order-number').on('keyup', function() {
-      var input_buy_order_number = $(this).val();
-      $('#buy-order-price').text("0");
-      if (input_buy_order_number >= 0.0001 && input_buy_order_number <= 10000000) {
-        var buy_order_value = $('.buy-order-value').text().replace(/[,円 ]/g, "");
-        var buy_order_price = Math.ceil(input_buy_order_number * buy_order_value);
-        $('#buy-order-price').text(`${buy_order_price.toLocaleString()}`);
-      }
-    });
+  // 見込み損益を挿入
+  function setOrderProfit(order_type) {
+    var input_order_number = $('#input-sell-order-number').val();
+    $('#sell-order-profit').text(0);
+    if (order_type == "sell" && input_order_number <= 10000000) {
+        var average_cost = $('#average_cost').text().replace(/[,円 ]/g, "");
+        var current_order_value = $('.sell-order-value').text().replace(/[,円 ]/g, "");
+        var order_profit_per_coin = current_order_value - average_cost;
+        var order_number = $('#input-sell-order-number').val();
+        var order_profit = Math.floor(order_profit_per_coin * input_order_number);
+        $('#sell-order-profit').text(`${order_profit.toLocaleString()}`);
+    }
   }
 
+  // 数量を入力したときに概算約定代金を挿入
+  function setOrderPrice(order_type) {
+    if (order_type == "buy") {
+      var trigger = $('#input-buy-order-number');
+      var output_target = $('#buy-order-price');
+      var current_order_value = $('.buy-order-value');
+    } else if (order_type == "sell") {
+      var trigger = $('#input-sell-order-number');
+      var output_target = $('#sell-order-price');
+      var current_order_value = $('.sell-order-value');
+    }
+    trigger.on('keyup', function() {
+      var input_order_number = $(this).val();
+      output_target.text("0");
+      if (input_order_number >= 0.0001 && input_order_number <= 10000000) {
+        var order_value = current_order_value.text().replace(/[,円 ]/g, "");
+        var order_price = Math.ceil(input_order_number * order_value);
+        output_target.text(`${order_price.toLocaleString()}`);
+      }
+      setOrderProfit(order_type);
+    });
+  }
 
   // コントローラーとアクションによる条件分岐
   switch(current_controller + "#" + current_action) {
     case "money#show":
-    case "buy_orders#new":
       var money_abbreviation = $(".money-table").data("money-abbreviation");
       reloadsNewData(money_abbreviation);
-      setBuyOrderPrice(money_abbreviation)
+      break;
+    case "buy_orders#new":
+    case "sell_orders#new":
+      var order_type = current_controller.replace("_orders", "");
+      var money_abbreviation = $(".money-table").data("money-abbreviation");
+      reloadsNewData(money_abbreviation);
+      setOrderPrice(order_type);
       break;
     case "money#index":
       var money_table_rows = $(".money-table-row");
