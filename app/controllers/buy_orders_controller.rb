@@ -3,7 +3,7 @@ class BuyOrdersController < ApplicationController
 
   def new
     @money = Money.find(params[:money_id])
-    @crypto_asset = CryptoAsset.find_or_create_by!(user_id: current_user.id, money_id: params[:money_id])
+    @crypto_asset = CryptoAsset.find_or_create_by(user_id: current_user.id, money_id: params[:money_id])
     @buy_order = BuyOrder.new
   end
 
