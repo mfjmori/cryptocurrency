@@ -1,5 +1,10 @@
 %p#notice= notice
 .container
+  .row.mb-3
+    .offset-6.col-3
+      = button_to "買い注文", new_money_buy_order_path(@money), method: :get, class: "btn btn-danger col-12"
+    .col-3
+      = button_to "売り注文", new_money_sell_order_path(@money), method: :get, class: "btn btn-primary col-12"
   .row
     #card-wrapper.col-12.px-3
       %h3.text-center.font-weight-bold チャート詳細
@@ -24,6 +29,7 @@
         %tr.bg-white
           %td.buy-order-value{:id => "#{@money.abbreviation}"} 取得中
           %td.sell-order-value{:id => "#{@money.abbreviation}"} 取得中
+.container
   %div
     .clearfix
     #candlestick-day-container.container
