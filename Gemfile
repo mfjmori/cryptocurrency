@@ -65,3 +65,4 @@ gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 gem "pundit"
 gem 'haml-rails'
+gem 'active_decorator'
