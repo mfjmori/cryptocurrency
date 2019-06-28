@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  has_one :cash_asset
+  has_many :crypto_assets
   enum role: { normal: 0, admin: 1 }
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
