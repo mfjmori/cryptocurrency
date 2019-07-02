@@ -1,0 +1,26 @@
+.container
+  .row
+    .col-lg-8.offset-lg-2.col-xl-8.offset-xl-2
+      %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{money.abbreviation}", "data-money-id" => "#{money.id}"}
+        %thead.bg-warning
+          %tr
+            %th 余力
+            %th 保有数量
+            %th 平均取得単価
+            %th 買値
+            %th 売値
+        %tbody
+          %tr.bg-white
+            %td
+              = crypto_asset.user.cash_asset.number.to_s(:delimited)
+              円
+            %td
+              = crypto_asset.number == 0 ? "-" : crypto_asset.number.to_s(:delimited) + " #{money.abbreviation.upcase}"
+            %td#average_cost
+              = crypto_asset.average_cost
+            %td
+              %span.buy-order-value{id: "#{money.abbreviation}"} 取得中
+              %span 円
+            %td
+              %span.sell-order-value{id: "#{money.abbreviation}"} 取得中
+              %span 円

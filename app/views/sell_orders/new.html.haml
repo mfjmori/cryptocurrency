@@ -1,28 +1,7 @@
 %p#notice= notice
 %h3.text-center.font-weight-bold.text-primary.text- 売り注文
 = render "shared/rate", money: @money
-.container
-  .row
-    .col-lg-8.offset-lg-2.col-xl-8.offset-xl-2
-      %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{@money.abbreviation}", "data-money-id" => "#{@money.id}"}
-        %thead.bg-warning
-          %tr
-            %th 保有数量
-            %th 平均取得単価
-            %th 買値
-            %th 売値
-        %tbody
-          %tr.bg-white
-            %td
-              = @crypto_asset.number == 0 ? "-" : @crypto_asset.number.to_s(:delimited)
-            %td#average_cost
-              = @crypto_asset.average_cost
-            %td
-              %span.buy-order-value{id: "#{@money.abbreviation}"} 取得中
-              %span 円
-            %td
-              %span.sell-order-value{id: "#{@money.abbreviation}"} 取得中
-              %span 円
+= render "shared/order_info_table", money: @money, crypto_asset: @crypto_asset
 .container
   .row
     = form_with(model: [@money, @sell_order], local: true, class: "col-lg-8 offset-lg-2 col-xl-8 offset-xl-2") do |f|
