@@ -27,10 +27,6 @@ class SellOrdersController < ApplicationController
   end
 
   private
-  def move_to_sign_in
-    redirect_to new_user_session_path unless user_signed_in?
-  end
-
   def sell_order_params
     params.require(:sell_order).permit(:number).merge(value: get_sell_order_value)
   end

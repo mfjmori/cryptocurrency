@@ -26,10 +26,6 @@ class BuyOrdersController < ApplicationController
   end
 
   private
-  def move_to_sign_in
-    redirect_to new_user_session_path unless user_signed_in?
-  end
-
   def buy_order_params
     params.require(:buy_order).permit(:number).merge(value: get_buy_order_value)
   end
