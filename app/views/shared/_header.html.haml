@@ -6,6 +6,8 @@
   #navbarNavDropdown.collapse.navbar-collapse
     %ul.navbar-nav.mr-0.ml-auto
       %li.nav-item
+        = link_to "マイページ", user_path(current_user), class: "nav-link" if signed_in?
+      %li.nav-item
         = link_to "新規登録", new_user_registration_path, class: "nav-link" unless signed_in?
       %li.nav-item
         = link_to "ログイン", new_user_session_path, class: "nav-link" unless signed_in?
@@ -21,11 +23,11 @@
         #dropdown-menu.dropdown-menu{"aria-labelledby": "navbarDropdownMenuLink"}
           - all_money.each do |money|
             = link_to money.name, new_money_sell_order_path(money), class: "dropdown-item"
-      %li.nav-item
-        = link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" if signed_in?
       %li.nav-item.dropdown
         %a#navbarDropdownMenuLink.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#"}
           仮想通貨一覧
         #dropdown-menu.dropdown-menu{"aria-labelledby": "navbarDropdownMenuLink"}
           - all_money.each do |money|
             = link_to money.name, money, class: "dropdown-item"
+      %li.nav-item
+        = link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" if signed_in?
