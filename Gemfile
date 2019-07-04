@@ -66,3 +66,4 @@ gem 'jquery-rails'
 gem "pundit"
 gem 'haml-rails'
 gem 'active_decorator'
+gem 'gon'
