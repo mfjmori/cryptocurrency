@@ -1,10 +1,4 @@
 %p#notice= notice
-.container
-  .row.mb-5
-    .offset-6.col-3
-      = button_to "買い注文", new_money_buy_order_path(@money), method: :get, class: "btn btn-danger col-12"
-    .col-3
-      = button_to "売り注文", new_money_sell_order_path(@money), method: :get, class: "btn btn-primary col-12"
 %h3.text-center.font-weight-bold チャート詳細
 = render "shared/rate", money: @money
 .container
@@ -47,3 +41,9 @@
       = link_to 'Edit', edit_money_path(@money) if current_user.try!(:admin?)
       |
       \#{link_to 'Back', money_index_path}
+.container
+  .row.mb-5
+    .offset-6.col-3
+      = button_to "買い注文", new_money_buy_order_path(@money), method: :get, class: "btn btn-danger col-12"
+    .col-3
+      = button_to "売り注文", new_money_sell_order_path(@money), method: :get, class: "btn btn-primary col-12"
