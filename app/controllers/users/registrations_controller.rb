@@ -12,7 +12,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    @cash_assset = resource.build_cash_asset(money_id: 1, number: 10000000)
+    money = Money.find_by(abbreviation: "jpy")
+    @cash_assset = resource.build_cash_asset(money_id: money.id, number: 10000000)
     @cash_assset.save
   end
 
