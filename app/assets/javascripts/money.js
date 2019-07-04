@@ -204,6 +204,42 @@ $(function() {
     setInterval(function(){setTotalCurrentAssets()}, 10000);
   };
 
+  // 資産推移を挿入
+  function appendAssetChart() {
+    var chart = c3.generate({
+      data: {
+          x : 'x',
+          columns: [
+            gon.x_axis,
+            gon.cash_assets,
+            gon.crypto_assets,
+          ],
+          groups: [
+              ['現金', '仮想通貨']
+          ],
+          type: 'bar'
+      },
+      axis: {
+          x: {
+              type: 'category' // this needed to load string x value
+          },
+          y: {
+            label: {
+              text: '価格 / 円',
+              position: 'outer-middle'
+            },
+            tick: {
+              format: d3.format(",")
+            }
+          }
+      },
+      padding: {
+        top: 10,
+        bottom: 0
+      }
+    });
+  }
+
   // コントローラーとアクションによる条件分岐
   switch(current_controller + "#" + current_action) {
     case "money#show":
@@ -231,6 +267,7 @@ $(function() {
         reloadsNewData(money_abbreviation);
       });
       repeatTotalCurrentAssets();
+      appendAssetChart();
       break;
   }
 });
