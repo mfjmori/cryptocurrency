@@ -1,9 +1,9 @@
-# User.create!(
-#   email: 'admin@gmail.com',
-#   password: '10s3029h',
-#   nickname: 'admin',
-#   role: 1
-# )
+User.create!(
+  email: 'admin@gmail.com',
+  password: '10s3029h',
+  nickname: 'admin',
+  role: 1
+)
 users = User.all
 users.each do |user|
   cash_asset = CashAsset.find_or_initialize_by(user_id: user.id)
