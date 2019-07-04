@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_28_044650) do
+ActiveRecord::Schema.define(version: 2019_07_03_124020) do
+
+  create_table "assets_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "cash_asset", null: false
+    t.integer "crypto_asset", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_assets_histories_on_user_id"
+  end
 
   create_table "buy_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "crypto_asset_id"
@@ -72,6 +81,7 @@ ActiveRecord::Schema.define(version: 2019_06_28_044650) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "assets_histories", "users"
   add_foreign_key "buy_orders", "crypto_assets"
   add_foreign_key "cash_assets", "money"
   add_foreign_key "cash_assets", "users"
