@@ -1,10 +1,12 @@
-%p#notice= notice
+- if notice.present?
+  %p#notice.alert.alert-success
+    = notice
 .container
   - unless @crypto_assets.map(&:number).sum.zero?
     .row
-      %h3.text-left.font-weight-bold 保有銘柄
+      %h3.text-left.font-weight-bold.mt-5 保有銘柄
     .row
-      %table.table.table-sm.col-12.mb-5
+      %table.table.table-sm.col-12
         %thead.bg-warning
           %tr
             %th 仮想通貨
@@ -55,7 +57,7 @@
               %span.total_current_profit_ratio 取得中
               %span %
   .row
-    %h3.text-left.font-weight-bold 総資産
+    %h3.text-left.font-weight-bold.mt-5 総資産
   .row
     %table.table.table-sm
       %thead.bg-warning

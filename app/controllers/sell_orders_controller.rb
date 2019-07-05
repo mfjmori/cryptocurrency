@@ -21,7 +21,7 @@ class SellOrdersController < ApplicationController
       cash_asset.save!
       @crypto_asset.save!
     end
-      redirect_to user_path(current_user)
+      redirect_to user_path(current_user), notice: '売却が完了しました'
     rescue ActiveRecord::RecordInvalid
       redirect_to new_money_sell_order_path(params[:money_id]), flash: { error: @sell_order.errors.full_messages }
   end

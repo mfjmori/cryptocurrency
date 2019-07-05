@@ -20,7 +20,7 @@ class BuyOrdersController < ApplicationController
       @cash_asset.save!
       @crypto_asset.save!
     end
-      redirect_to user_path(current_user)
+      redirect_to user_path(current_user), notice: '購入が完了しました'
     rescue ActiveRecord::RecordInvalid
       redirect_to new_money_buy_order_path(params[:money_id]), flash: { error: @buy_order.errors.full_messages }
   end
