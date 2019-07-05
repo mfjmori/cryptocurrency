@@ -20,7 +20,7 @@ class BuyOrdersController < ApplicationController
       @cash_asset.save!
       @crypto_asset.save!
     end
-      redirect_to money_path(params[:money_id])
+      redirect_to user_path(current_user)
     rescue ActiveRecord::RecordInvalid
       redirect_to new_money_buy_order_path(params[:money_id]), flash: { error: @buy_order.errors.full_messages }
   end
@@ -36,7 +36,7 @@ class BuyOrdersController < ApplicationController
     response_text = Net::HTTP.get(url)
     response_hash = JSON.parse(response_text)
     number = params[:buy_order][:number].to_f
-    value = response_hash["data"]["buy"].to_i
+    value = response_hash["data"]["buy"].to_f
     buy_order_value = (number * value).ceil
   end
 end
