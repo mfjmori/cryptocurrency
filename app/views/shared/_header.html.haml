@@ -6,7 +6,7 @@
   #navbarNavDropdown.collapse.navbar-collapse
     %ul.navbar-nav.mr-0.ml-auto
       %li.nav-item
-        = link_to "マイページ", user_path(current_user), class: "nav-link" if signed_in?
+        = link_to "#{current_user.nickname}さんのページ", user_path(current_user), class: "nav-link" if signed_in?
       %li.nav-item
         = link_to "新規登録", new_user_registration_path, class: "nav-link" unless signed_in?
       %li.nav-item
