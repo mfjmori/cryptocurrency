@@ -1,0 +1,24 @@
+%p#notice= notice
+%h3.text-center.font-weight-bold.text-danger.text-white 買い注文
+= render "shared/rate", money: @money
+= render "shared/order_info_table", money: @money, crypto_asset: @crypto_asset
+.container
+  .row
+    = form_with(model: [@money, @buy_order], local: true, class: "col-lg-8 offset-lg-2 col-xl-8 offset-xl-2") do |f|
+      .buy-order-range.mb-3.text-secondary 
+        = "売買単位(0.0001 #{@money.abbreviation.upcase} 〜 100,000 #{@money.abbreviation.upcase})"
+      .row.form-group
+        = f.label :number, "数量(#{@money.abbreviation.upcase})", class: "col-6 mb-0 d-flex align-items-center font-weight-bold"
+        .col-6
+          = f.number_field :number, min: "0.0001", max: "100000", class: [flash[:error].present? ? "form-control is-invalid" : "form-control"] , id: "input-buy-order-number", step: "0.0001"
+      .row
+        - if flash[:error].present?
+          %ul.errors.offset-6
+            %li.text-danger
+              = flash[:error][0]
+      .row.mb-5
+        .col-6.font-weight-bold 概算約定代金
+        .h4.col-6.text-right
+          %span#buy-order-price 0
+          円
+      = f.submit "注文する", class: "btn btn-lg btn-danger btn-block mt-3"

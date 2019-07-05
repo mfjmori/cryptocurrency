@@ -1,0 +1,90 @@
+- if notice.present?
+  %p#notice.alert.alert-success
+    = notice
+.container
+  - unless @crypto_assets.map(&:number).sum.zero?
+    .row
+      %h3.text-left.font-weight-bold.mt-5 保有銘柄
+    .row
+      %table.table.table-sm.col-12
+        %thead.bg-warning
+          %tr
+            %th 仮想通貨
+            %th.text-center 保有数量
+            %th.text-center 平均取得単価
+            %th.text-center レート
+            %th.text-center 時価評価額
+            %th.text-center 評価損益額 / 評価損益率
+            %th.d-none payed_cash
+        %tbody
+          - @crypto_assets.each do |crypto_asset|
+            - if crypto_asset.number != 0
+              %tr.bg-white.money-table-row{ data: { money: { abbreviation: "#{crypto_asset.money.abbreviation}" ,id: "#{crypto_asset.money.id}"} } }
+                %td
+                  = crypto_asset.money.abbreviation.upcase
+                %td.text-right.crypto_asset_number
+                  = crypto_asset.number.to_s(:delimited)
+                %td.text-right#average_cost
+                  = crypto_asset.average_cost
+                %td.text-right
+                  %span.middle-rate{id: "#{crypto_asset.money.abbreviation}"} 取得中
+                  %span 円
+                %td.text-right
+                  %span.current_crypto_asset_price 取得中
+                  %span 円
+                %td.text-center
+                  %span.current_profit 取得中
+                  %span 円 /
+                  %span.current_profit_ratio 取得中
+                  %span %
+                %td.d-none.payed_cash
+                  = crypto_asset.payed_cash
+          %tr.bg-white.money-table-row.table-primary.total-crypto-asset
+            %td.font-weight-bold
+              合計
+            %td.text-right
+              = "-"
+            %td.text-right
+              = "-"
+            %td.text-right
+              = "-"
+            %td.text-right.font-weight-bold
+              %span.total_current_price 取得中
+              %span 円
+            %td.text-center.font-weight-bold
+              %span.total_current_profit 取得中
+              %span 円 /
+              %span.total_current_profit_ratio 取得中
+              %span %
+  .row
+    %h3.text-left.font-weight-bold.mt-5 総資産
+  .row
+    %table.table.table-sm
+      %thead.bg-warning
+        %tr
+          %th 種別
+          %th{style: "width:25%", class: "text-center"}
+            時価評価額
+      %tbody
+        %tr.bg-white.money-table-row
+          %td 現金
+          %td.text-center
+            %span.cash_asset
+              = current_user.cash_asset.number.to_s(:delimited)
+            %span 円
+        %tr.bg-white.money-table-row.crypto
+          %td 仮想通貨
+          %td.text-center
+            %span.crypto-asset
+              = "-"
+            %span 円
+        %tr.bg-white.money-table-row.table-primary
+          %td.font-weight-bold 合計
+          %td.text-center.font-weight-bold
+            %span.total-asset
+              = "-"
+            %span 円
+  .row
+    %h4.text-left.font-weight-bold.mt-2 資産推移（過去１週間）
+  #chart
+  %p.text-right.mb-5 ※ PM11:00時点での資産状況を表示します
