@@ -8,7 +8,7 @@ class SellOrder < ApplicationRecord
 
   def number_must_be_less_than_asset_coin_number
     if number.nil? || self.crypto_asset.number < number
-      errors.add(:value, "must be less than asset coin number")
+      errors.add(:number, "は保有数量以下にしてください")
     end
   end
 end

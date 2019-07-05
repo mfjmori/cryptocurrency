@@ -14,9 +14,8 @@
       .row
         - if flash[:error].present?
           %ul.errors.offset-6
-            - flash[:error].each do |e|
-              %li.text-danger
-                = e
+            %li.text-danger
+              = flash[:error][0]
       .row.mb-5
         .col-6.font-weight-bold 概算約定代金
         .h4.col-6.text-right

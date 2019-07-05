@@ -8,7 +8,7 @@ class BuyOrder < ApplicationRecord
 
   def value_must_be_less_than_cash
     if self.crypto_asset.user.cash_asset.number < value
-      errors.add(:value, "must be less than cash")
+      errors.add(:value, "現金が不足しています")
     end
   end
 end

@@ -1,5 +1,7 @@
-%p#notice= notice
-%h3.text-center.font-weight-bold チャート詳細
+- if notice.present?
+  %p#notice.alert.alert-success
+    = notice
+%h3.text-center.font-weight-bold.mt-5 チャート詳細
 = render "shared/rate", money: @money
 .container
   %div
