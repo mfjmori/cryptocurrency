@@ -6,7 +6,7 @@
   .row
     = form_with(model: [@money, @sell_order], local: true, class: "col-lg-8 offset-lg-2 col-xl-8 offset-xl-2") do |f|
       .sell-order-range.mb-3.text-secondary 
-        = "販売単位(0.0001 #{@money.abbreviation.upcase} 〜 100 #{@money.abbreviation.upcase})"
+        = "売買単位(0.0001 #{@money.abbreviation.upcase} 〜 100,000 #{@money.abbreviation.upcase})"
       .row.form-group
         = f.label :number, "数量(#{@money.abbreviation.upcase})", class: "col-6 mb-0 d-flex align-items-center font-weight-bold"
         .col-6

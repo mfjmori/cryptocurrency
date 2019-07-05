@@ -6,11 +6,11 @@
   .row
     = form_with(model: [@money, @buy_order], local: true, class: "col-lg-8 offset-lg-2 col-xl-8 offset-xl-2") do |f|
       .buy-order-range.mb-3.text-secondary 
-        = "販売単位(0.0001 #{@money.abbreviation.upcase} 〜 100 #{@money.abbreviation.upcase})"
+        = "売買単位(0.0001 #{@money.abbreviation.upcase} 〜 100,000 #{@money.abbreviation.upcase})"
       .row.form-group
         = f.label :number, "数量(#{@money.abbreviation.upcase})", class: "col-6 mb-0 d-flex align-items-center font-weight-bold"
         .col-6
-          = f.number_field :number, class: [flash[:error].present? ? "form-control is-invalid" : "form-control"] , id: "input-buy-order-number", step: "0.0001"
+          = f.number_field :number, min: "0.0001", max: "100000", class: [flash[:error].present? ? "form-control is-invalid" : "form-control"] , id: "input-buy-order-number", step: "0.0001"
       .row
         - if flash[:error].present?
           %ul.errors.offset-6

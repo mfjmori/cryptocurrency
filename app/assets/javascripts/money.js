@@ -113,7 +113,7 @@ $(function() {
   function setOrderProfit(order_type) {
     var input_order_number = $('#input-sell-order-number').val();
     $('#sell-order-profit').text(0);
-    if (order_type == "sell" && input_order_number <= 10000000) {
+    if (order_type == "sell" && input_order_number >= 0.0001 && input_order_number <= 100000) {
       var average_cost = $('#average_cost').text().replace(/[,円 ]/g, "");
       var current_order_value = $('.sell-order-value').text().replace(/[,円 ]/g, "");
       var order_profit_per_coin = current_order_value - average_cost;
@@ -136,7 +136,7 @@ $(function() {
     trigger.on('keyup', function() {
       var input_order_number = $(this).val();
       output_target.text("0");
-      if (input_order_number >= 0.0001 && input_order_number <= 10000000) {
+      if (input_order_number >= 0.0001 && input_order_number <= 100000) {
         var order_value = current_order_value.text().replace(/[,円 ]/g, "");
         var order_price = Math.ceil(input_order_number * order_value);
         output_target.text(`${order_price.toLocaleString()}`);
