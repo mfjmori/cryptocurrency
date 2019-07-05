@@ -36,10 +36,8 @@ $(function() {
   // ローソクチャートを表示する関数
   // candletypeには 1min 5min 15min 30min 1hour dayが選べる
   function displayCandlestick(data, money_abbreviation, candle_type) {
-    $(`.${money_abbreviation}` + `.candlestick-${candle_type}`).children("svg").remove();
     col_width = $(`.candlestick-${candle_type}`).width();
     col_height = col_width / 8 * 5;
-
     // set the dimensions and margins of the graph
     var margin = {top: 5, right: 5, bottom: 30, left: 80},
     width = col_width - margin.left - margin.right,
@@ -67,7 +65,8 @@ $(function() {
     if (candle_type == "day") {
       var xAxis = d3.axisBottom()
       .scale(x)
-      .ticks(width/110); // 何データずつメモリ表示するか;
+      .tickFormat(d3.timeFormat("%b")) // 日足なので、月(略称)表示にする
+      .ticks(width/80); // 何データずつメモリ表示するか;
     } else {
       var xAxis = d3.axisBottom()
       .scale(x)
@@ -92,6 +91,7 @@ $(function() {
     // append the svg obgect to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
+    $(`.${money_abbreviation}` + `.candlestick-${candle_type}`).children("svg").remove();
     var svg = d3.select('.svg-box' + `.candlestick-${candle_type}` + `.${money_abbreviation}`)
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -105,8 +105,8 @@ $(function() {
 
     // format the data & sort by date
     // sliseは受け取ったデータのうち、いくつ目までを採用するか
-    if (data.length > 200) {
-      var first_data_index = data.length - 100;
+    if (data.length > 180) {
+      var first_data_index = data.length - 180;
     } else {
       var first_data_index = 0;
     }
@@ -199,6 +199,30 @@ $(function() {
     });
   }
 
+  // buttonの切り替え
+  function changeButton(obj) {
+    obj.removeClass("btn-secondary").addClass("btn-primary active");
+    obj.siblings().removeClass("btn-primary active").addClass("btn-secondary");
+  };
+
+  // チャートの切り替え
+  function changeCandleStick(money_abbreviation, obj) {
+    if (obj.hasClass("active") == false) {
+      if (obj.attr("id") == "candlestick-day-button") {
+        var candle_type = "day"
+      } else if(obj.attr("id") == "candlestick-5min-button") {
+        var candle_type = "5min"
+      } else if(obj.attr("id") == "candlestick-1min-button") {
+        var candle_type = "1min"
+      }
+      var target_obj = $("#candlestick-" + candle_type + "-container")
+      target_obj.removeClass("invisible fixed-top");
+      target_obj.siblings().addClass("invisible fixed-top");
+      getAPIAndDisplayCandlestick(money_abbreviation, candle_type);
+      changeButton(obj);
+    }
+  }
+
   //コントローラーとアクションによる条件分岐
   if (current_controller == "money" && current_action == "show" ) {
     // 仮想通貨種別を取得
@@ -208,10 +232,17 @@ $(function() {
     // ５分足チャートを描画する
     getAPIAndDisplayCandlestick(money_abbreviation, "5min");
     // 1分足チャートを描画する
-    $(document).ready(function(){
-      getAPIAndDisplayCandlestick(money_abbreviation, "1min");
+    getAPIAndDisplayCandlestick(money_abbreviation, "1min");
+    // ボタンによるチャートの切り替え
+    $("#candlestick-day-button").click(function() {
+      changeCandleStick(money_abbreviation, $(this))
     });
-    setInterval(function(){getAPIAndDisplayCandlestick(money_abbreviation, "1min")}, 10000);
+    $("#candlestick-5min-button").click(function() {
+      changeCandleStick(money_abbreviation, $(this))
+    });
+    $("#candlestick-1min-button").click(function() {
+      changeCandleStick(money_abbreviation, $(this))
+    });
   } else if (current_controller == "money" && current_action == "index") {
     // 仮想通貨種別を取得
     var money_abbreviations = $(".candlestick-card-wrapper");
