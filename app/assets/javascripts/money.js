@@ -49,22 +49,21 @@ $(function() {
   // Tickerを取得して現在の価格（買値、売値、仲値）のテキストを挿入する
   function reloadTicker(money_abbreviation) {
     // api/money_controllerに送る
-    var money_id = $(".money-table").data("money-id");
-    var requestUrl = `/api/money/${money_id}`;
+    var requestUrl = `/api/money/${money_abbreviation}`;
     $.ajax({
       url: requestUrl,
       type: 'get',
       dataType: 'json',
-      data: {type: 'ticker', money_abbreviation: money_abbreviation}
+      data: {type: 'ticker'}
     })
     .done(function(json) {
       var sell_order_value = Number(json.data.sell);
       var buy_order_value = Number(json.data.buy);
-      var middle_rate = (Number(sell_order_value) + Number(buy_order_value)) / 2;
+      var middle_rate = (sell_order_value + buy_order_value) / 2;
       middle_rate = myRound(middle_rate, 1);
-      $(".buy-order-value" + "#" + money_abbreviation).text(buy_order_value.toLocaleString());
-      $(".sell-order-value" + "#" + money_abbreviation).text(sell_order_value.toLocaleString());
-      $(".middle-rate" + "#" + money_abbreviation).text(middle_rate.toLocaleString());
+      $(".buy-order-value" + "." + money_abbreviation).text(buy_order_value.toLocaleString());
+      $(".sell-order-value" + "." + money_abbreviation).text(sell_order_value.toLocaleString());
+      $(".middle-rate" + "." + money_abbreviation).text(middle_rate.toLocaleString());
       if(!isNaN(middle_rate)){
         reloadComperePreviousDay (money_abbreviation, middle_rate);
       }
@@ -77,13 +76,12 @@ $(function() {
 
   // 前日の終値を取得して、前日比を挿入する
   function reloadComperePreviousDay (money_abbreviation, current_middle_rate) {
-    var money_id = $(".money-table").data("money-id");
-    var requestUrl = `/api/money/${money_id}`;
+    var requestUrl = `/api/money/${money_abbreviation}`;
     $.ajax({
       url: requestUrl,
       type: 'get',
       dataType: 'json',
-      data: {type: 'previous_day', money_abbreviation: money_abbreviation}
+      data: {type: 'previous_day'}
     })
     .done(function(json) {
       var row_data_list = json.data.candlestick[0].ohlcv;
@@ -92,9 +90,9 @@ $(function() {
       var previous_day_rate = previous_day_data[3];
       var difference_previous_day = myRound(current_middle_rate - previous_day_rate, getDecimalPlaces(previous_day_rate));
       var ratio_previous_day = myRound(difference_previous_day / current_middle_rate * 100, 2);
-      RateColoring($(".compare-previous-day" + "#" + money_abbreviation), difference_previous_day)
+      RateColoring($(".compare-previous-day" + "." + money_abbreviation), difference_previous_day)
       var appendtext = `前日比 ${join_plus(difference_previous_day)}円（${join_plus(ratio_previous_day)}%）`;
-      $(".compare-previous-day" + "#" + money_abbreviation).text(appendtext);
+      $(".compare-previous-day" + "." + money_abbreviation).text(appendtext);
     })
     .fail(function() {
       alert('error');

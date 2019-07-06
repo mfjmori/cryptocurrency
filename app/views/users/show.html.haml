@@ -19,7 +19,7 @@
         %tbody
           - @crypto_assets.each do |crypto_asset|
             - if crypto_asset.number != 0
-              %tr.bg-white.money-table-row{ data: { money: { abbreviation: "#{crypto_asset.money.abbreviation}" ,id: "#{crypto_asset.money.id}"} } }
+              %tr.bg-white.money-table-row{"data-money-abbreviation": "#{crypto_asset.money.abbreviation}"}
                 %td
                   = crypto_asset.money.abbreviation.upcase
                 %td.text-right.crypto_asset_number
@@ -27,7 +27,7 @@
                 %td.text-right#average_cost
                   = crypto_asset.average_cost
                 %td.text-right
-                  %span.middle-rate{id: "#{crypto_asset.money.abbreviation}"} 取得中
+                  %span.middle-rate{class: "#{crypto_asset.money.abbreviation}"} 取得中
                   %span 円
                 %td.text-right
                   %span.current_crypto_asset_price 取得中

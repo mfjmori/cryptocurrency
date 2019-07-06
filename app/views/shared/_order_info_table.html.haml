@@ -1,7 +1,7 @@
 .container
   .row
     .col-lg-8.offset-lg-2.col-xl-8.offset-xl-2
-      %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{money.abbreviation}", "data-money-id" => "#{money.id}"}
+      %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation": "#{money.abbreviation}"}
         %thead.bg-warning
           %tr
             %th 余力(現金)
@@ -19,8 +19,8 @@
             %td#average_cost
               = crypto_asset.average_cost
             %td
-              %span.buy-order-value{id: "#{money.abbreviation}"} 取得中
+              %span.buy-order-value{class: "#{money.abbreviation}"} 取得中
               %span 円
             %td
-              %span.sell-order-value{id: "#{money.abbreviation}"} 取得中
+              %span.sell-order-value{class: "#{money.abbreviation}"} 取得中
               %span 円

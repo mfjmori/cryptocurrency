@@ -5,7 +5,7 @@
 = render "shared/rate", money: @money
 .container
   .row
-    %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation" => "#{@money.abbreviation}", "data-money-id" => "#{@money.id}"}
+    %table.table.table-sm.col-12.table-bordered.money-table{"data-money-abbreviation": "#{@money.abbreviation}"}
       %thead.bg-warning
         %tr
           %th 買値
@@ -13,10 +13,10 @@
       %tbody
         %tr.bg-white
           %td
-            %span.buy-order-value{:id => "#{@money.abbreviation}"} 取得中
+            %span.buy-order-value{ class: "#{@money.abbreviation}"} 取得中
             %span 円
           %td
-            %span.sell-order-value{:id => "#{@money.abbreviation}"} 取得中
+            %span.sell-order-value{ class: "#{@money.abbreviation}"} 取得中
             %span 円
 .container
   .row
@@ -28,20 +28,20 @@
     .row
       #card-wrapper.col-12.px-0
         %h5.text-right ＜単位：日足＞
-        .card.response-output{"data-money-abbreviation" => "#{@money.abbreviation}"}
-          %div{:class => "card-body svg-box candlestick-day #{@money.abbreviation}"}
+        .card.response-output{"data-money-abbreviation": "#{@money.abbreviation}"}
+          %div{ class: "card-body svg-box candlestick-day #{@money.abbreviation}"}
   #candlestick-5min-container.container.invisible.fixed-top
     .row
       #card-wrapper.col-12.px-0
         %h5.text-right ＜単位：5分足＞
-        .card.response-output{"data-money-abbreviation" => "#{@money.abbreviation}"}
-          %div{:class => "card-body svg-box candlestick-5min #{@money.abbreviation}"}
+        .card.response-output{"data-money-abbreviation": "#{@money.abbreviation}"}
+          %div{ class: "card-body svg-box candlestick-5min #{@money.abbreviation}"}
   #candlestick-1min-container.container.invisible.fixed-top
     .row
       #card-wrapper.col-12.px-0
         %h5.text-right ＜単位：1分足＞
-        .card.response-output{"data-money-abbreviation" => "#{@money.abbreviation}"}
-          %div{:class => "card-body svg-box candlestick-1min #{@money.abbreviation}"}
+        .card.response-output{"data-money-abbreviation": "#{@money.abbreviation}"}
+          %div{ class: "card-body svg-box candlestick-1min #{@money.abbreviation}"}
 .container
   .row.mb-5.mt-4
     .col-6

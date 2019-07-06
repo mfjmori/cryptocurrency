@@ -167,13 +167,12 @@ $(function() {
   // candletypeには 1min 5min 15min 30min 1hour dayが選べる
   function getAPIAndDisplayCandlestick(money_abbreviation, candle_type) {
     // Get the data
-    var money_id = $(".money-table").data("money-id");
-    var requestUrl = `/api/money/${money_id}`;
+    var requestUrl = `/api/money/${money_abbreviation}`;
     $.ajax({
       url: requestUrl,
       type: 'get',
       dataType: 'json',
-      data: {type: 'candlestick', money_abbreviation: money_abbreviation, candle_type: candle_type }
+      data: {type: 'candlestick', candle_type: candle_type }
     })
     .done(function(json) {
       var row_data = json.data.candlestick[0].ohlcv

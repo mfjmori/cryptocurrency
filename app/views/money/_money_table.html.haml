@@ -1,10 +1,19 @@
-%tr.bg-white.money-table-row{ data: { money: { abbreviation: "#{money.abbreviation}" ,id: "#{money.id}"} } }
+%tr.bg-white.money-table-row{"data-money-abbreviation": "#{money.abbreviation}"}
   %th.money_name
     = money.name
-  %td= money.abbreviation.upcase
-  %td.middle-rate{ id: "#{money.abbreviation}"} 取得中
-  %td.buy-order-value{ id: "#{money.abbreviation}"} 取得中
-  %td.sell-order-value{ id: "#{money.abbreviation}"} 取得中
+  %td
+    = money.abbreviation.upcase
+  %td.text-right
+    %span.middle-rate{ class: "#{money.abbreviation}"} 取得中
+    %span.mr-5 円
+  %td.text-right
+    %span.buy-order-value{ class: "#{money.abbreviation}"} 取得中
+    %span.mr-5 円
+  %td.text-right
+    %span.sell-order-value{ class: "#{money.abbreviation}"} 取得中
+    %span.mr-5 円
   - if signed_in? && current_user.admin?
-    %td= link_to 'Edit', edit_money_path(money)
-    %td= link_to 'Destroy', money, method: :delete, data: { confirm: 'Are you sure?' }
+    %td
+      = link_to 'Edit', edit_money_path(money)
+    %td
+      = link_to 'Destroy', money, method: :delete, data: { confirm: 'Are you sure?' }
