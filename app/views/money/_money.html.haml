@@ -2,7 +2,7 @@
   .card.shadow-sm
     = link_to money_path(money) do
       %div{:class => "card-body svg-box candlestick-day #{money.abbreviation}"}
-        %h4.card-title
+        %h4.card-title.text-truncate
           = money.abbreviation.upcase
           (#{money.name})
         .rate-box.row.col-11.offset-1
