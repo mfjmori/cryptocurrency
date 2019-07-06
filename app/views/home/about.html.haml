@@ -1,0 +1,31 @@
+.container
+  .row.mt-5
+    %h2.col-12 DemoCryptoへようこそ!!
+    %p.col-12 このサイトでは仮想通貨について以下のことが出来ます
+  .row.mt-4
+    %h4.col-12.font-weight-bold レートの確認
+    %ul
+      %li ビットコイン、モナコイン、ビットコインキャッシュ、リップルの最新レートが確認できます
+      %li 表示は１０秒ごとに更新されるので、常に最新レートを確認できます
+  .row.mt-3
+    %h4.col-12.font-weight-bold チャートの確認
+    %ul
+      %li ローソク足チャートが確認できます
+      %li 詳細ページでは、日足・５分足・１分足チャートが確認できます
+  .row.mt-3
+    %h4.col-12.font-weight-bold デモトレード
+    %ul
+      %li 実際にお金を使わないデモトレードが可能です
+      %li 1000万円の初期資金を元に仮想通貨の運用ができます
+      %li ログイン中のみ買い注文と売り注文が可能です
+  .row.mt-3
+    %h4.col-12.font-weight-bold 総資産の確認
+    %ul
+      %li ユーザーページでは総資産の確認ができます
+      %li 所持している仮想通貨と現金の確認ができます
+      %li １週間の資産推移を棒グラフで確認することが出来ます
+  .row.mt-3.mb-5
+    .col-8.offset-2
+      = button_to "今すぐ始める", new_user_registration_path, method: :get, class: "btn btn-lg btn-primary btn-block"
+
+
