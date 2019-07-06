@@ -66,7 +66,7 @@ $(function() {
       var xAxis = d3.axisBottom()
       .scale(x)
       .tickFormat(d3.timeFormat("%b")) // 日足なので、月(略称)表示にする
-      .ticks(width/80); // 何データずつメモリ表示するか;
+      .ticks(width/90); // 何データずつメモリ表示するか;
     } else {
       var xAxis = d3.axisBottom()
       .scale(x)
