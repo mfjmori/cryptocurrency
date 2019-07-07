@@ -54,14 +54,18 @@ namespace :create_assets_history do
     assets_history = AssetsHistory.new(user_id: user.id, created_at: (today - 6.day))
     assets_history = user.assets_histories.build(cash_asset: 6000000, crypto_asset: 1000000)
     assets_history.save
+    assets_history.update(created_at: (today - 6.day))
     assets_history = AssetsHistory.new(user_id: user.id, created_at: (today - 5.day))
     assets_history = user.assets_histories.build(cash_asset: 6000000, crypto_asset: 1500000)
     assets_history.save
+    assets_history.update(created_at: (today - 5.day))
     assets_history = AssetsHistory.new(user_id: user.id, created_at: (today - 4.day))
     assets_history = user.assets_histories.build(cash_asset: 6500000, crypto_asset: 1500000)
     assets_history.save
+    assets_history.update(created_at: (today - 4.day))
     assets_history = AssetsHistory.new(user_id: user.id, created_at: (today - 3.day))
     assets_history = user.assets_histories.build(cash_asset: 6500000, crypto_asset: 2500000)
     assets_history.save
+    assets_history.update(created_at: (today - 3.day))
   end
 end
