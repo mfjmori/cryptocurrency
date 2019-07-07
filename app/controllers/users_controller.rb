@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def set_week_asset_history
     to  = Time.current.yesterday
     from = (to - 6.day).at_beginning_of_day
-    asset_histories = AssetsHistory.where(user_id: current_user.id, created_at: from..to)
+    asset_histories = AssetsHistory.where(user_id: current_user.id, created_at: from..to).order("created_at DESC")
     gon.x_axis = asset_histories.map{|obj| obj.created_at.strftime("%m/%d")}.unshift("x")
     gon.cash_assets = asset_histories.map(&:cash_asset).unshift("現金")
     gon.crypto_assets = asset_histories.map(&:crypto_asset).unshift("仮想通貨")
