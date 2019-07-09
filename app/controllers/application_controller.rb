@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_action :get_all_money
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :basic_auth
+  before_action :basic_auth, if: :production?
 
   private
     def move_to_sign_in
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
     def basic_auth
       authenticate_or_request_with_http_basic do |username, password|
-        username == 'admin' && password == '1111'
+        username == ENV["BASIC_AUTH_USER"] && password == ENV["BASIC_AUTH_PASSWORD"]
       end
     end
 end
