@@ -41,30 +41,4 @@ namespace :create_assets_history do
       end
     end
   end
-
-  desc "6/30から7/3までのassets_historiesを保存する"
-  task missing_data_create: :environment do
-    # userごとにassets_historyを計算して保存
-    user = User.find(32)
-    today = Time.current
-    assets_history = AssetsHistory.find_by(user_id: user.id, created_at: (today - 3.day).all_day)
-    assets_history.destroy
-
-    # assets_history = AssetsHistory.new(user_id: user.id, created_at: (today - 6.day))
-    # assets_history = user.assets_histories.build(cash_asset: 6000000, crypto_asset: 1000000)
-    # assets_history.save
-    # assets_history.update(created_at: (today - 6.day))
-    # assets_history = AssetsHistory.new(user_id: user.id, created_at: (today - 5.day))
-    # assets_history = user.assets_histories.build(cash_asset: 6000000, crypto_asset: 1500000)
-    # assets_history.save
-    # assets_history.update(created_at: (today - 5.day))
-    # assets_history = AssetsHistory.new(user_id: user.id, created_at: (today - 4.day))
-    # assets_history = user.assets_histories.build(cash_asset: 6500000, crypto_asset: 1500000)
-    # assets_history.save
-    # assets_history.update(created_at: (today - 4.day))
-    assets_history = AssetsHistory.new(user_id: user.id, created_at: (today - 1.day))
-    assets_history = user.assets_histories.build(cash_asset: 650000, crypto_asset: 9100000)
-    assets_history.save
-    assets_history.update(created_at: (today - 1.day))
-  end
 end
