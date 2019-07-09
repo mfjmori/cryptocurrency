@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   private
   def set_week_asset_history
-    to  = Time.current.yesterday
+    to  = Time.current.yesterday.at_end_of_day
     from = (to - 6.day).at_beginning_of_day
     asset_histories = AssetsHistory.where(user_id: current_user.id, created_at: from..to).order("created_at ASC")
     gon.x_axis = asset_histories.map{|obj| obj.created_at.strftime("%m/%d")}.unshift("x")
