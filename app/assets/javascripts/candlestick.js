@@ -1,98 +1,82 @@
 $(function() {
-  // 変数の宣言
   // 現在のコントローラーとアクションを取得
   var current_controller = $("body").data("controller");
   var current_action = $("body").data("action");
 
   //unixTimeをymd形式に変換する関数
   function unixTime2ymd(intTime){
-    var y = new Date( intTime );
     var d = new Date( intTime );
-    var year  = y.getFullYear();
-    var month = y.getMonth() + 1;
+    var year  = d.getFullYear();
+    var month = d.getMonth() + 1;
     var day  = d.getDate();
     var hour = ( '0' + d.getHours() ).slice(-2);
     var min  = ( '0' + d.getMinutes() ).slice(-2);
-    // var sec   = ( '0' + d.getSeconds() ).slice(-2);
     return( year + '-' + month + '-' + day + " " + hour + ":" + min);
   };
 
-  // 今日の日付をYYYY形式またはYYYYMMDD形式で取得する関数
-  function getToday(tipe) {
-    var now = new Date();
-    var year = String(now.getFullYear());
-    var month = String(now.getMonth() + 1);
-    var day  = String(now.getDate());
-    if (month.length == 1) {
-      month = "0" + month;
-    }
-    if (tipe == "year") {
-      return year;
-    } else if (tipe == "date") {
-      return year + month + day;
-    }
-  }
-
   // ローソクチャートを表示する関数
-  // candletypeには 1min 5min 15min 30min 1hour dayが選べる
+  // candletypeには 1min 5min 1dayが選べる
   function displayCandlestick(data, money_abbreviation, candle_type) {
-    col_width = $(`.candlestick-${candle_type}`).width();
-    col_height = col_width / 8 * 5;
-    // set the dimensions and margins of the graph
-    var margin = {top: 5, right: 5, bottom: 30, left: 80},
-    width = col_width - margin.left - margin.right,
-    height = col_height - margin.top - margin.bottom;
 
-    // parse the date / time
+    // グラフを挿入するエリア（card）のwidthを取得,（今回、heightはwidthの8/5に設定）
+    var card_width = $(`.candlestick-${candle_type}`).width();
+    var card_height = card_width / 8 * 5;
+
+    // グラフの領域とマージンを設定
+    var margin = {top: 5, right: 5, bottom: 30, left: 80};
+    var width = card_width - margin.left - margin.right;
+    var height = card_height - margin.top - margin.bottom;
+
+    // %Y-%m-%d %H:%M の形式のデータを受け取りパースするための変数
     var parseDate = d3.timeParse("%Y-%m-%d %H:%M");
 
-    // set the ranges
+    // グラフ領域のうちx軸が占めるwidthを設定(今回は0~width)
     var x = techan.scale.financetime()
             .range([0, width]);
 
+    // グラフ領域のうちy軸が占めるheightを設定
     // レートと出来高を7対3の比率に設定
     var y = d3.scaleLinear()
             .range([height * 7 / 10, 0]);
-
     var yVolume = d3.scaleLinear()
             .range([height, height * 7 / 10]);
 
-    // define the candlestick
+    // ローソク足チャートをcandlestickとして定義
     var candlestick = techan.plot.candlestick()
             .xScale(x)
             .yScale(y);
-
-    if (candle_type == "day") {
+    // 日足チャートの場合x軸の定義
+    if (candle_type == "1day") {
       var xAxis = d3.axisBottom()
       .scale(x)
       .tickFormat(d3.timeFormat("%b")) // 日足なので、月(略称)表示にする
-      .ticks(width/90); // 何データずつメモリ表示するか;
+      .ticks(width/90); // 何データずつメモリ表示するか
+    // 分足チャートの場合x軸の定義
     } else {
       var xAxis = d3.axisBottom()
       .scale(x)
       .tickFormat(d3.timeFormat("%H:%M")) // 分足なので、時：分表示にする
-      .ticks(width/90); // 何データずつメモリ表示するか;
+      .ticks(width/90); // 何データずつメモリ表示するか
     }
 
+    // y軸(レート)の定義
     var yAxis = d3.axisLeft()
             .scale(y)
             .ticks(height/70);
 
-    // define the sma(移動平均線)
+    // 移動平均線をsmaとして定義(単純移動平均線 SMA: Simple Moving Average)
     var sma = techan.plot.sma()
             .xScale(x)
             .yScale(y);
 
-    // define the volume
+    // y軸(出来高)の定義
     var volume = techan.plot.volume()
             .xScale(x)
             .yScale(yVolume);
 
-    // append the svg obgect to the body of the page
-    // appends a 'group' element to 'svg'
-    // moves the 'group' element to the top left margin
+    // svgの挿入（既存のチャートを削除してから挿入）
     $(`.${money_abbreviation}` + `.candlestick-${candle_type}`).children("svg").remove();
-    var svg = d3.select('.svg-box' + `.candlestick-${candle_type}` + `.${money_abbreviation}`)
+    var svg = d3.select('.card-body' + `.candlestick-${candle_type}` + `.${money_abbreviation}`)
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -103,8 +87,7 @@ $(function() {
     var cAccessor = candlestick.accessor();
     var vAccessor = volume.accessor();
 
-    // format the data & sort by date
-    // sliseは受け取ったデータのうち、いくつ目までを採用するか
+    // 最大180個のデータ数を表示する
     if (data.length > 180) {
       var first_data_index = data.length - 180;
     } else {
@@ -120,53 +103,52 @@ $(function() {
           volume: +d.Volume
       };
     }).sort(function(a, b) { return d3.ascending(cAccessor.d(a), cAccessor.d(b)); });
-    // Scale the range of the data
+    // 描画関数
     x.domain(data.map(cAccessor.d));
     y.domain(techan.scale.plot.ohlc(data, cAccessor).domain());
     yVolume.domain(techan.scale.plot.volume(data, vAccessor.v).domain());
-    // Add the volume
+    /// 出来高を挿入する
     svg.append("g")
             .attr("class", "volume")
             .data([data])
             .call(volume);
-    // Add the candlestick
+    // ローソク足を挿入する
     svg.append("g")
             .attr("class", "candlestick")
             .data([data])
             .call(candlestick);
-    // Add the sma25
+    // 移動平均線（データ数25）を追加する
     svg.append("g")
           .attr("class", "sma ma25")
           .datum(techan.indicator.sma().period(25)(data))
           .call(sma);
-    // Add the X Axis
+    // x軸を追加する
     svg.append("g")
           .attr("class", "x axis")
           .attr("transform", "translate(0," + height + ")")
           .call(xAxis);
-    // Add the Volume-Y Axis
+    // y軸（出来高）を追加する
     svg.append("g")
           .call(d3.axisLeft(yVolume)
           .ticks(height/150)
           .tickFormat(d3.format(",.3s")));
-    // Add the Y Axis
+    // y軸（レート）を追加する
     svg.append("g")
           .attr("class", "y axis")
           .call(yAxis);
-    // Add the Y Axis
+    // y軸のラベルを追加する
     svg.append("g")
           .append("text")
           .attr("transform", "rotate(-90)") // Y軸ラベルを縦書きに
-          .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
+          .attr("y", 15) // 位置調整
+          .style("text-anchor", "end") // テキスト開始位置
           .text("価格 (円)");
   }
 
   // APIを取得し、内部でdisplayCandlestickを呼び出す関数
-  // candletypeには 1min 5min 15min 30min 1hour dayが選べる
+  // candletypeには 1min 5min 1dayが選べる
   function getAPIAndDisplayCandlestick(money_abbreviation, candle_type) {
-    // Get the data
+
     var requestUrl = `/api/money/${money_abbreviation}`;
     $.ajax({
       url: requestUrl,
@@ -176,7 +158,7 @@ $(function() {
     })
     .done(function(json) {
       var row_data = json.data.candlestick[0].ohlcv
-      var modified_data = [];
+      var data = [];
       row_data.forEach(function(datum) {
         var open = datum[0];
         var high = datum[1];
@@ -185,12 +167,13 @@ $(function() {
         var volume = datum[4];
         var date = unixTime2ymd(datum[5])
         var modified_datum = { Date: date, Open: open, High: high, Low: low, Close: close, Volume: volume };
-        modified_data.push(modified_datum);
+        data.push(modified_datum);
       });
-      displayCandlestick(modified_data, money_abbreviation, candle_type);
+      // 画面を読み込んだ時に発火する
+      displayCandlestick(data, money_abbreviation, candle_type);
       // 画面をリサイズした時に発火する
       $(window).on("resize", function() {
-        displayCandlestick(modified_data, money_abbreviation, candle_type);
+        displayCandlestick(data, money_abbreviation, candle_type);
       });
     })
     .fail(function() {
@@ -207,8 +190,8 @@ $(function() {
   // チャートの切り替え
   function changeCandleStick(money_abbreviation, obj) {
     if (obj.hasClass("active") == false) {
-      if (obj.attr("id") == "candlestick-day-button") {
-        var candle_type = "day"
+      if (obj.attr("id") == "candlestick-1day-button") {
+        var candle_type = "1day"
       } else if(obj.attr("id") == "candlestick-5min-button") {
         var candle_type = "5min"
       } else if(obj.attr("id") == "candlestick-1min-button") {
@@ -225,15 +208,15 @@ $(function() {
   //コントローラーとアクションによる条件分岐
   if (current_controller == "money" && current_action == "show" ) {
     // 仮想通貨種別を取得
-    var money_abbreviation = $(".money-table").data("money-abbreviation");
+    var money_abbreviation = $(".candlestick-containers").data("money-abbreviation");
     // 日足チャートを描画する
-    getAPIAndDisplayCandlestick(money_abbreviation, "day");
+    getAPIAndDisplayCandlestick(money_abbreviation, "1day");
     // ５分足チャートを描画する
     getAPIAndDisplayCandlestick(money_abbreviation, "5min");
     // 1分足チャートを描画する
     getAPIAndDisplayCandlestick(money_abbreviation, "1min");
     // ボタンによるチャートの切り替え
-    $("#candlestick-day-button").click(function() {
+    $("#candlestick-1day-button").click(function() {
       changeCandleStick(money_abbreviation, $(this))
     });
     $("#candlestick-5min-button").click(function() {
@@ -248,7 +231,7 @@ $(function() {
     // 仮想通貨の数だけ日足チャートをループ表示する
     $.each(money_abbreviations, function(index, money_abbreviation) {
       var a_money_abbreviation = $(money_abbreviation).data("money-abbreviation");
-      getAPIAndDisplayCandlestick(a_money_abbreviation, "day");
+      getAPIAndDisplayCandlestick(a_money_abbreviation, "1day");
     });
   }
 });
