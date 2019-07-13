@@ -20,28 +20,28 @@
             %span 円
 .container
   .row
-    = button_tag( "日足", type: "button", class: "btn btn-primary mr-1 active col-2", id: "candlestick-day-button")
+    = button_tag( "日足", type: "button", class: "btn btn-primary mr-1 active col-2", id: "candlestick-1day-button")
     = button_tag( "5分足", type: "button", class: "btn btn-secondary mx-1 col-2", id: "candlestick-5min-button")
     = button_tag( "1分足", type: "button", class: "btn btn-secondary mx-1 col-2", id: "candlestick-1min-button")
-.candlestick-containers
-  #candlestick-day-container.container
+.candlestick-containers{"data-money-abbreviation": "#{@money.abbreviation}"}
+  #candlestick-1day-container.container
     .row
       #card-wrapper.col-12.px-0
         %h5.text-right ＜単位：日足＞
-        .card.response-output{"data-money-abbreviation": "#{@money.abbreviation}"}
-          %div{ class: "card-body svg-box candlestick-day #{@money.abbreviation}"}
+        .card
+          .card-body.candlestick-1day{ class: "#{@money.abbreviation}"}
   #candlestick-5min-container.container.invisible.fixed-top
     .row
       #card-wrapper.col-12.px-0
         %h5.text-right ＜単位：5分足＞
-        .card.response-output{"data-money-abbreviation": "#{@money.abbreviation}"}
-          %div{ class: "card-body svg-box candlestick-5min #{@money.abbreviation}"}
+        .card
+          .card-body.candlestick-5min{ class: "#{@money.abbreviation}"}
   #candlestick-1min-container.container.invisible.fixed-top
     .row
       #card-wrapper.col-12.px-0
         %h5.text-right ＜単位：1分足＞
-        .card.response-output{"data-money-abbreviation": "#{@money.abbreviation}"}
-          %div{ class: "card-body svg-box candlestick-1min #{@money.abbreviation}"}
+        .card
+          .card-body.candlestick-1min{ class: "#{@money.abbreviation}"}
 .container
   .row.mb-5.mt-4
     .col-6
